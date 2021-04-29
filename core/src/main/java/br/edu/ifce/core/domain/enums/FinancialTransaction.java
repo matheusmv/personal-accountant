@@ -1,4 +1,4 @@
-package domain.enums;
+package br.edu.ifce.core.domain.enums;
 
 public enum FinancialTransaction {
     PROFIT(1),
