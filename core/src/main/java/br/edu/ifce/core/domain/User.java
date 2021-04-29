@@ -1,14 +1,16 @@
-package domain;
+package br.edu.ifce.core.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Document
 public class User {
     private String id;
     private String email;
