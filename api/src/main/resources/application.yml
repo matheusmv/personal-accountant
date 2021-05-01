@@ -2,8 +2,4 @@ spring:
   data:
     mongodb:
       auto-index-creation: true
-      uri: mongodb+srv://matheus:SGAXx6YLznsDlZ91@devweb-flask.je9oz.mongodb.net/personal-accountant?retryWrites=true&w=majority
-
-logging:
-  level:
-    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+      uri: mongodb+srv://

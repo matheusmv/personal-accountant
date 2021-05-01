@@ -4,10 +4,7 @@ import br.edu.ifce.api.controller.requests.UserRequest;
 import br.edu.ifce.api.controller.responses.UserResponse;
 import br.edu.ifce.core.port.driver.CreateUserPort;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/users")
 @RestController
@@ -20,5 +17,10 @@ public class UserController {
     public UserResponse createUser(@RequestBody UserRequest request) {
         var user = createUserPort.execute(request.toUser());
         return new UserResponse(user);
+    }
+
+    @GetMapping
+    public String hello() {
+        return "Hello World";
     }
 }
