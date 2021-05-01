@@ -8,17 +8,14 @@
 		<version>2.4.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-
-	<groupId>br.edu.ifce.api</groupId>
+	<groupId>br.edu.ifce.personal-accountant</groupId>
 	<artifactId>api</artifactId>
 	<version>1.0.0</version>
 	<name>api</name>
-	<description>API do projeto</description>
-
+	<description>Project API</description>
 	<properties>
 		<java.version>15</java.version>
 	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>br.edu.ifce.personal-accountant</groupId>
@@ -35,7 +32,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.20</version>
+			<version>1.18.18</version>
 		</dependency>
 
 		<dependency>

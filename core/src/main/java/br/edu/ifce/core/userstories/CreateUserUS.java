@@ -1,26 +1,24 @@
-package br.edu.ifce.core.stories.user;
+package br.edu.ifce.core.userstories;
 
 import br.edu.ifce.core.domain.User;
 import br.edu.ifce.core.port.driven.UserRepositoryPort;
 import br.edu.ifce.core.port.driver.CreateUserPort;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Configuration;
 
 import javax.inject.Named;
 
 @Named
 @RequiredArgsConstructor
-@Configuration
 public class CreateUserUS implements CreateUserPort {
 
-    private final UserRepositoryPort userRepository;
+    private final UserRepositoryPort repository;
 
     @Override
     public User execute(User user) {
-        if (userRepository.userEmailAlreadyExists(user.getEmail())) {
+        if (repository.userEmailAlreadyExists(user.getEmail())) {
             throw new IllegalArgumentException("User Already Exists");
         }
 
-        return userRepository.saveUser(user);
+        return repository.save(user);
     }
 }
