@@ -18,9 +18,4 @@ public class UserController {
         var user = createUserPort.execute(request.toUser());
         return new UserResponse(user);
     }
-
-    @GetMapping
-    public String hello() {
-        return "Hello World";
-    }
 }
