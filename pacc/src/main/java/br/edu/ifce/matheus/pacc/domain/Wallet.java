@@ -1,4 +1,4 @@
-package br.edu.ifce.core.domain;
+package br.edu.ifce.matheus.pacc.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

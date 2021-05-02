@@ -1,4 +1,4 @@
-package br.edu.ifce.core.domain;
+package br.edu.ifce.matheus.pacc.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,8 +11,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document
-public class Wallet {
+public class User {
     private String id;
-    private String name;
+    private String email;
+    private String password;
     private LocalDateTime createdAt;
 }
