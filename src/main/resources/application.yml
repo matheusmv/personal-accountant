@@ -1,0 +1,5 @@
+spring:
+  data:
+    mongodb:
+      auto-index-creation: true
+      uri: mongodb+srv://matheus:rjIEtacbYwJYsYma@mongo-db-study-tests.je9oz.mongodb.net/lp2?retryWrites=true&w=majority
