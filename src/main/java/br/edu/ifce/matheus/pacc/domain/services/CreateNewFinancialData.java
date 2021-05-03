@@ -17,11 +17,11 @@ public class CreateNewFinancialData {
 
     public FinancialData execute(FinancialData financialData) {
         if (financialData.getType() == null) {
-            throw new InvalidFinancialDataTypeException();
+            throw new InvalidFinancialDataTypeException("The type of expense / profit cannot be null.");
         }
 
         if (financialData.getAmount() == null) {
-            throw new InvalidFinancialDataAmountException();
+            throw new InvalidFinancialDataAmountException("The amount of expense / profit cannot be null");
         }
 
         financialData.setCreatedAt(LocalDateTime.now());

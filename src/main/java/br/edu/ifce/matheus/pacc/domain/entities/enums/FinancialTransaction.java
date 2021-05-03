@@ -1,5 +1,7 @@
 package br.edu.ifce.matheus.pacc.domain.entities.enums;
 
+import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidFinancialDataTypeException;
+
 public enum FinancialTransaction {
     PROFIT(1),
     EXPENSE(2);
@@ -11,7 +13,7 @@ public enum FinancialTransaction {
     }
 
     public int getCode() {
-        return  code;
+        return code;
     }
 
     public static FinancialTransaction valueOf(int code) {
@@ -20,6 +22,6 @@ public enum FinancialTransaction {
                 return value;
             }
         }
-        throw new IllegalArgumentException("Invalid Financial Transaction!");
+        throw new InvalidFinancialDataTypeException("Invalid Financial Transaction!");
     }
 }
