@@ -19,7 +19,7 @@ public class UserController {
 
     @PostMapping
     public UserResponse createUser(@RequestBody UserRequest request) {
-        CreateNewUser createNewUser = new CreateNewUser(userRepository);
+        var createNewUser = new CreateNewUser(userRepository);
         var savedUser = createNewUser.execute(request.toUser());
         return new UserResponse(savedUser);
     }

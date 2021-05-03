@@ -19,7 +19,7 @@ public class WalletController {
 
     @PostMapping
     public WalletResponse createWallet(@RequestBody WalletRequest request) {
-        CreateNewWallet createNewWallet = new CreateNewWallet(walletRepository);
+        var createNewWallet = new CreateNewWallet(walletRepository);
         var savedWallet = createNewWallet.execute(request.toWallet());
         return new WalletResponse(savedWallet);
     }

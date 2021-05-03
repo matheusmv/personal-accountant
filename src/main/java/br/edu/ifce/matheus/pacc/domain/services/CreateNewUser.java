@@ -18,7 +18,7 @@ public class CreateNewUser {
         var userDB = userRepository.findByEmail(user.getEmail());
 
         if (userDB != null) {
-            throw new UserExistsException();
+            throw new UserExistsException("User Already Exists.");
         }
 
         user.setCreatedAt(LocalDateTime.now());

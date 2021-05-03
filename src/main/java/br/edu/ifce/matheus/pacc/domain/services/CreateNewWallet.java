@@ -18,7 +18,7 @@ public class CreateNewWallet {
         var walletDB = walletRepository.findByName(wallet.getName());
 
         if (walletDB != null) {
-            throw new WalletExistsException();
+            throw new WalletExistsException("Wallet Already Exists");
         }
 
         wallet.setCreatedAt(LocalDateTime.now());

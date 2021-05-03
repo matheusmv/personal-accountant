@@ -27,7 +27,7 @@ public class Email {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(value);
 
         if (!matcher.find()) {
-            throw new InvalidEmailException();
+            throw new InvalidEmailException("Email with invalid format.");
         }
     }
 }

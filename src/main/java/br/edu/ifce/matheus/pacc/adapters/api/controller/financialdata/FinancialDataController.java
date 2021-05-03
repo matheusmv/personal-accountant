@@ -19,7 +19,7 @@ public class FinancialDataController {
 
     @PostMapping
     public FinancialDataResponse createFinancialData(@RequestBody FinancialDataRequest request) {
-        CreateNewFinancialData createNewFinancialData = new CreateNewFinancialData(financialDataRepository);
+        var createNewFinancialData = new CreateNewFinancialData(financialDataRepository);
         var financialData = createNewFinancialData.execute(request.toFinancialData());
         return new FinancialDataResponse(financialData);
     }
