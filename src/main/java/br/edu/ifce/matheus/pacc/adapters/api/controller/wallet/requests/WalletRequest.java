@@ -6,7 +6,6 @@ import lombok.Value;
 @Value
 public class WalletRequest {
     String name;
-    String ownerId;
 
     public Wallet toWallet() {
         var wallet = new Wallet();

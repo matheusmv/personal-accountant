@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
@@ -15,5 +15,5 @@ public class User {
     private String id;
     private String email;
     private String password;
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 }

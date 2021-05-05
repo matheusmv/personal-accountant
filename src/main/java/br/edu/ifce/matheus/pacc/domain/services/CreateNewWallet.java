@@ -4,7 +4,7 @@ import br.edu.ifce.matheus.pacc.domain.entities.Wallet;
 import br.edu.ifce.matheus.pacc.domain.exceptions.WalletExistsException;
 import br.edu.ifce.matheus.pacc.domain.ports.WalletRepository;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public class CreateNewWallet {
 
@@ -21,7 +21,7 @@ public class CreateNewWallet {
             throw new WalletExistsException("Wallet Already Exists");
         }
 
-        wallet.setCreatedAt(LocalDateTime.now());
+        wallet.setCreatedAt(Instant.now());
 
         return walletRepository.saveWallet(wallet);
     }

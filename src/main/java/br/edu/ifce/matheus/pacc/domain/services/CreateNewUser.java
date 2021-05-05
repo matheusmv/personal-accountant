@@ -4,7 +4,7 @@ import br.edu.ifce.matheus.pacc.domain.entities.User;
 import br.edu.ifce.matheus.pacc.domain.exceptions.UserExistsException;
 import br.edu.ifce.matheus.pacc.domain.ports.UserRepository;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public class CreateNewUser {
 
@@ -21,7 +21,7 @@ public class CreateNewUser {
             throw new UserExistsException("User Already Exists.");
         }
 
-        user.setCreatedAt(LocalDateTime.now());
+        user.setCreatedAt(Instant.now());
 
         return userRepository.saveUser(user);
     }
