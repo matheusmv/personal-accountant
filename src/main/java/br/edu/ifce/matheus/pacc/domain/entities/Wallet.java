@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
@@ -14,5 +14,5 @@ import java.time.LocalDateTime;
 public class Wallet {
     private String id;
     private String name;
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
@@ -18,5 +18,5 @@ public class FinancialData {
     private FinancialTransaction type;
     private String description;
     private BigDecimal amount;
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 }

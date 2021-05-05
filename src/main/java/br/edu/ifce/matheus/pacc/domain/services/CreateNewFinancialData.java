@@ -5,7 +5,7 @@ import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidFinancialDataAmountExce
 import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidFinancialDataTypeException;
 import br.edu.ifce.matheus.pacc.domain.ports.FinancialDataRepository;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public class CreateNewFinancialData {
 
@@ -24,7 +24,7 @@ public class CreateNewFinancialData {
             throw new InvalidFinancialDataAmountException("The amount of expense / profit cannot be null");
         }
 
-        financialData.setCreatedAt(LocalDateTime.now());
+        financialData.setCreatedAt(Instant.now());
 
         return financialDataRepository.saveFinancialData(financialData);
     }
