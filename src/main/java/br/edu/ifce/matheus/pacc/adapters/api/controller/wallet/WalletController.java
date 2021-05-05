@@ -5,10 +5,12 @@ import br.edu.ifce.matheus.pacc.adapters.api.controller.wallet.responses.WalletR
 import br.edu.ifce.matheus.pacc.domain.ports.WalletRepository;
 import br.edu.ifce.matheus.pacc.domain.services.CreateNewWallet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api/wallets")
@@ -18,9 +20,15 @@ public class WalletController {
     private WalletRepository walletRepository;
 
     @PostMapping
-    public WalletResponse createWallet(@RequestBody WalletRequest request) {
+    public ResponseEntity<WalletResponse> createWallet(@RequestBody WalletRequest request) {
         var createNewWallet = new CreateNewWallet(walletRepository);
         var savedWallet = createNewWallet.execute(request.toWallet());
-        return new WalletResponse(savedWallet);
+
+        var uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedWallet.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(new WalletResponse(savedWallet));
     }
 }
