@@ -1,12 +1,13 @@
 package br.edu.ifce.matheus.pacc.adapters.api.controller.user.requests;
 
 import br.edu.ifce.matheus.pacc.domain.entities.User;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 public class UserRequest {
-    String email;
-    String password;
+
+    private String email;
+    private String password;
 
     public User toUser() {
         var user = new User();

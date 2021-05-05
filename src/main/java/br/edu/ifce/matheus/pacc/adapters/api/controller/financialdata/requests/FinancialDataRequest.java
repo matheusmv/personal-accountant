@@ -2,15 +2,16 @@ package br.edu.ifce.matheus.pacc.adapters.api.controller.financialdata.requests;
 
 import br.edu.ifce.matheus.pacc.domain.entities.FinancialData;
 import br.edu.ifce.matheus.pacc.domain.entities.enums.FinancialTransaction;
-import lombok.Value;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Value
+@Data
 public class FinancialDataRequest {
-    FinancialTransaction type;
-    String description;
-    BigDecimal amount;
+
+    private FinancialTransaction type;
+    private String description;
+    private BigDecimal amount;
 
     public FinancialData toFinancialData() {
         var financialData = new FinancialData();
