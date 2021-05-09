@@ -1,19 +1,21 @@
 package br.edu.ifce.matheus.pacc.domain.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 @Document
 public class User {
     private String id;
     private String email;
     private String password;
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 }

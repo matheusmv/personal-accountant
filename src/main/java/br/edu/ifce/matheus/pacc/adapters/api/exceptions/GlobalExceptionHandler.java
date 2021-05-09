@@ -1,6 +1,9 @@
 package br.edu.ifce.matheus.pacc.adapters.api.exceptions;
 
-import br.edu.ifce.matheus.pacc.domain.exceptions.*;
+import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidEmailException;
+import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidFinancialDataAmountException;
+import br.edu.ifce.matheus.pacc.domain.exceptions.UserExistsException;
+import br.edu.ifce.matheus.pacc.domain.exceptions.WalletExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,19 +41,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
-    @ExceptionHandler(InvalidPasswordException.class)
-    public ResponseEntity<StandardError> invalidPassword(InvalidPasswordException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        StandardError err = new StandardError(
-                Instant.now(),
-                status.value(),
-                "InvalidPasswordException",
-                e.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(status).body(err);
-    }
-
     @ExceptionHandler(WalletExistsException.class)
     public ResponseEntity<StandardError> walletExists(WalletExistsException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
@@ -58,19 +48,6 @@ public class GlobalExceptionHandler {
                 Instant.now(),
                 status.value(),
                 "WalletExistsException",
-                e.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(status).body(err);
-    }
-
-    @ExceptionHandler(InvalidFinancialDataTypeException.class)
-    public ResponseEntity<StandardError> invalidFinancialDataType(InvalidFinancialDataTypeException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        StandardError err = new StandardError(
-                Instant.now(),
-                status.value(),
-                "InvalidFinancialDataTypeException",
                 e.getMessage(),
                 request.getRequestURI()
         );

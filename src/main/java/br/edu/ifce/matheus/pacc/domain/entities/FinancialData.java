@@ -1,16 +1,18 @@
 package br.edu.ifce.matheus.pacc.domain.entities;
 
 import br.edu.ifce.matheus.pacc.domain.entities.enums.FinancialTransaction;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 @Document
 public class FinancialData {
@@ -18,5 +20,5 @@ public class FinancialData {
     private FinancialTransaction type;
     private String description;
     private BigDecimal amount;
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 }
