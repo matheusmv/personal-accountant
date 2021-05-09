@@ -12,7 +12,6 @@ public class FinancialDataRepositoryImpl implements FinancialDataRepository {
     @Autowired
     private FinancialDataMongoRepository repository;
 
-
     @Override
     public FinancialData saveFinancialData(FinancialData financialData) {
         return repository.save(financialData);
