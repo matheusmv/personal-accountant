@@ -1,9 +1,6 @@
 package br.edu.ifce.matheus.pacc.adapters.api.exceptions;
 
-import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidEmailException;
-import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidFinancialDataAmountException;
-import br.edu.ifce.matheus.pacc.domain.exceptions.UserExistsException;
-import br.edu.ifce.matheus.pacc.domain.exceptions.WalletExistsException;
+import br.edu.ifce.matheus.pacc.domain.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -61,6 +58,19 @@ public class GlobalExceptionHandler {
                 Instant.now(),
                 status.value(),
                 "InvalidFinancialDataAmountException",
+                e.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(InvalidConfirmationTokenException.class)
+    public ResponseEntity<StandardError> invalidConfirmationToken(InvalidConfirmationTokenException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError(
+                Instant.now(),
+                status.value(),
+                "InvalidConfirmationTokenException",
                 e.getMessage(),
                 request.getRequestURI()
         );

@@ -1,5 +1,6 @@
 package br.edu.ifce.matheus.pacc.domain.entities;
 
+import br.edu.ifce.matheus.pacc.domain.entities.enums.UserRole;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,9 @@ public class User {
     private String id;
     private String email;
     private String password;
+    private UserRole userRole;
+    private Boolean locked = false;
+    private Boolean enabled = false;
     private LocalDateTime createdAt;
+    private ConfirmationToken confirmationToken;
 }
