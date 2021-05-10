@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class RegistrationResponse {
 
-    private String token;
+    private String message;
 
-    public RegistrationResponse(String token) {
-        this.token = token;
+    public RegistrationResponse(String message) {
+        this.message = message;
     }
 }
