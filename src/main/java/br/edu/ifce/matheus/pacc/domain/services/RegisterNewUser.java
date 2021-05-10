@@ -19,7 +19,7 @@ public class RegisterNewUser {
 
     private final UserRepository userRepository;
 
-    public String execute(User user) {
+    public User execute(User user) {
         validateUserEmail(user.getEmail());
 
         var userDB = userRepository.findUserByEmail(user.getEmail());
@@ -36,7 +36,7 @@ public class RegisterNewUser {
 
         userRepository.saveUser(user);
 
-        return token;
+        return user;
     }
 
     private ConfirmationToken createConfirmationToken(String token) {
