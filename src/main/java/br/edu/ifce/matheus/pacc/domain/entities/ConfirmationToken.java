@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Document
 public class ConfirmationToken {
 
-    private String id;
     private String token;
     private LocalDateTime createdAt;
     private LocalDateTime expiresAt;
