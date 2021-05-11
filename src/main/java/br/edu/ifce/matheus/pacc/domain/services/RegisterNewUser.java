@@ -5,6 +5,7 @@ import br.edu.ifce.matheus.pacc.domain.entities.User;
 import br.edu.ifce.matheus.pacc.domain.entities.enums.UserRole;
 import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidEmailException;
 import br.edu.ifce.matheus.pacc.domain.exceptions.UserExistsException;
+import br.edu.ifce.matheus.pacc.domain.ports.PasswordEncoder;
 import br.edu.ifce.matheus.pacc.domain.ports.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.services.utils.EmailValidation;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ public class RegisterNewUser {
     private static final String EMAIL_NOT_VALID_MSG = "email %s not valid";
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public User execute(User user) {
         validateUserEmail(user.getEmail());
@@ -28,10 +30,14 @@ public class RegisterNewUser {
             throw new UserExistsException("User Already Exists.");
         }
 
-        String token = UUID.randomUUID().toString();
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
 
+        user.setPassword(encodedPassword);
         user.setUserRole(UserRole.USER);
         user.setCreatedAt(LocalDateTime.now());
+
+        String token = UUID.randomUUID().toString();
+
         user.setConfirmationToken(createConfirmationToken(token));
 
         userRepository.saveUser(user);
