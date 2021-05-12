@@ -23,4 +23,12 @@ public class ConfirmationToken {
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
     }
+
+    public boolean hasExpired() {
+        return expiresAt.isBefore(LocalDateTime.now());
+    }
+
+    public boolean hasBeenConfirmed() {
+        return confirmedAt != null;
+    }
 }

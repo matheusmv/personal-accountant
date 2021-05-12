@@ -24,9 +24,9 @@ public class RegisterNewUser {
     public User execute(User user) {
         validateUserEmail(user.getEmail());
 
-        var userDB = userRepository.findUserByEmail(user.getEmail());
+        var userExists = userRepository.findUserByEmail(user.getEmail());
 
-        if (userDB != null) {
+        if (userExists != null) {
             throw new UserExistsException("User Already Exists.");
         }
 
@@ -40,9 +40,7 @@ public class RegisterNewUser {
 
         user.setConfirmationToken(createConfirmationToken(token));
 
-        userRepository.saveUser(user);
-
-        return user;
+        return userRepository.saveUser(user);
     }
 
     private ConfirmationToken createConfirmationToken(String token) {

@@ -17,30 +17,28 @@ public class EnableUser {
     private final UserRepository userRepository;
 
     public String execute(String confirmationToken) {
-        var userDB = userRepository.findUserByConfirmationToken(confirmationToken);
+        var user = userRepository.findUserByConfirmationToken(confirmationToken);
 
-        if (userDB == null) {
+        if (user == null) {
             throw new InvalidConfirmationTokenException(String.format(TOKEN_NOT_VALID_MSG, confirmationToken));
         }
 
-        var userToken = userDB.getConfirmationToken();
+        var userToken = user.getConfirmationToken();
 
-        if (userToken.getConfirmedAt() != null) {
+        if (userToken.hasBeenConfirmed()) {
             throw new InvalidEmailException(EMAIL_ALREADY_CONFIRMED_MSG);
         }
 
-        LocalDateTime expiredAt = userToken.getExpiresAt();
-
-        if (expiredAt.isBefore(LocalDateTime.now())) {
+        if (userToken.hasExpired()) {
             throw new InvalidConfirmationTokenException(TOKEN_EXPIRED_MSG);
         }
 
         userToken.setConfirmedAt(LocalDateTime.now());
 
-        userDB.setConfirmationToken(userToken);
-        userDB.setEnabled(true);
+        user.setConfirmationToken(userToken);
+        user.setEnabled(true);
 
-        userRepository.saveUser(userDB);
+        userRepository.saveUser(user);
 
         return "confirmed";
     }
