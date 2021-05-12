@@ -5,23 +5,29 @@ import br.edu.ifce.matheus.pacc.domain.entities.User;
 import br.edu.ifce.matheus.pacc.domain.entities.enums.UserRole;
 import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidEmailException;
 import br.edu.ifce.matheus.pacc.domain.exceptions.UserExistsException;
-import br.edu.ifce.matheus.pacc.domain.ports.PasswordEncoder;
-import br.edu.ifce.matheus.pacc.domain.ports.UserRepository;
+import br.edu.ifce.matheus.pacc.domain.ports.driven.EmailSender;
+import br.edu.ifce.matheus.pacc.domain.ports.driven.PasswordEncoder;
+import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
+import br.edu.ifce.matheus.pacc.domain.ports.driver.RegisterNewUserAndSendConfirmationLink;
 import br.edu.ifce.matheus.pacc.domain.services.utils.EmailValidation;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Service
 @AllArgsConstructor
-public class RegisterNewUser {
+public class RegisterNewUserAndSendConfirmationLinkService implements RegisterNewUserAndSendConfirmationLink {
 
     private static final String EMAIL_NOT_VALID_MSG = "email %s not valid";
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailSender emailSender;
 
-    public User execute(User user) {
+    @Override
+    public String execute(User user, String confirmationLink) {
         validateUserEmail(user.getEmail());
 
         var userExists = userRepository.findUserByEmail(user.getEmail());
@@ -40,15 +46,11 @@ public class RegisterNewUser {
 
         user.setConfirmationToken(createConfirmationToken(token));
 
-        return userRepository.saveUser(user);
-    }
+        userRepository.saveUser(user);
 
-    private ConfirmationToken createConfirmationToken(String token) {
-        return new ConfirmationToken(
-                token,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15)
-        );
+        emailSender.execute(user.getEmail(), confirmationLink, token);
+
+        return "confirm your email";
     }
 
     private void validateUserEmail(String userEmail) {
@@ -59,5 +61,13 @@ public class RegisterNewUser {
         if (!isValidEmail) {
             throw new InvalidEmailException(String.format(EMAIL_NOT_VALID_MSG, userEmail));
         }
+    }
+
+    private ConfirmationToken createConfirmationToken(String token) {
+        return new ConfirmationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15)
+        );
     }
 }
