@@ -2,13 +2,16 @@ package br.edu.ifce.matheus.pacc.domain.services;
 
 import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidConfirmationTokenException;
 import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidEmailException;
-import br.edu.ifce.matheus.pacc.domain.ports.UserRepository;
+import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
+import br.edu.ifce.matheus.pacc.domain.ports.driver.EnableUser;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@Service
 @AllArgsConstructor
-public class EnableUser {
+public class EnableUserService implements EnableUser {
 
     private static final String TOKEN_NOT_VALID_MSG = "token %s not valid";
     private static final String EMAIL_ALREADY_CONFIRMED_MSG = "email already confirmed";
@@ -16,6 +19,7 @@ public class EnableUser {
 
     private final UserRepository userRepository;
 
+    @Override
     public String execute(String confirmationToken) {
         var user = userRepository.findUserByConfirmationToken(confirmationToken);
 

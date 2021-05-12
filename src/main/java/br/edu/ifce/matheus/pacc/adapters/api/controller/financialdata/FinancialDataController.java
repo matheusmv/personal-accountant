@@ -2,9 +2,8 @@ package br.edu.ifce.matheus.pacc.adapters.api.controller.financialdata;
 
 import br.edu.ifce.matheus.pacc.adapters.api.controller.financialdata.requests.FinancialDataRequest;
 import br.edu.ifce.matheus.pacc.adapters.api.controller.financialdata.responses.FinancialDataResponse;
-import br.edu.ifce.matheus.pacc.domain.ports.FinancialDataRepository;
-import br.edu.ifce.matheus.pacc.domain.services.CreateNewExpenseData;
-import br.edu.ifce.matheus.pacc.domain.services.CreateNewProfitData;
+import br.edu.ifce.matheus.pacc.domain.ports.driver.CreateNewExpenseData;
+import br.edu.ifce.matheus.pacc.domain.ports.driver.CreateNewProfitData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,12 +17,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class FinancialDataController {
 
     @Autowired
-    private FinancialDataRepository financialDataRepository;
+    private CreateNewExpenseData createNewExpenseData;
+    @Autowired
+    private CreateNewProfitData createNewProfitData;
 
     @PostMapping("/profits")
     public ResponseEntity<FinancialDataResponse> createProfitData(@RequestBody FinancialDataRequest request) {
-        var createNewFinancialData = new CreateNewProfitData(financialDataRepository);
-        var savedFinancialData = createNewFinancialData.execute(request.toFinancialData());
+        var savedFinancialData = createNewProfitData.execute(request.toFinancialData());
 
         var uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -35,8 +35,7 @@ public class FinancialDataController {
 
     @PostMapping("/expenses")
     public ResponseEntity<FinancialDataResponse> createExpenseData(@RequestBody FinancialDataRequest request) {
-        var createNewFinancialData = new CreateNewExpenseData(financialDataRepository);
-        var savedFinancialData = createNewFinancialData.execute(request.toFinancialData());
+        var savedFinancialData = createNewExpenseData.execute(request.toFinancialData());
 
         var uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")

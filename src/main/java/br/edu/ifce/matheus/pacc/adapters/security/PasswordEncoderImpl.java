@@ -1,6 +1,6 @@
 package br.edu.ifce.matheus.pacc.adapters.security;
 
-import br.edu.ifce.matheus.pacc.domain.ports.PasswordEncoder;
+import br.edu.ifce.matheus.pacc.domain.ports.driven.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
