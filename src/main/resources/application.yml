@@ -5,8 +5,8 @@ spring:
       uri: mongodb+srv://
 
   mail:
-    host: smtp.gmail.com
-    port: 587
+    host:
+    port:
     username:
     password:
 
