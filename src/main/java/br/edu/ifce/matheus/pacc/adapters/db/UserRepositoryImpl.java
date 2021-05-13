@@ -18,6 +18,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public User findUserByUsername(String username) {
+        return repository.findUserByUsername(username);
+    }
+
+    @Override
     public User findUserByEmail(String userEmail) {
         return repository.findUserByEmail(userEmail);
     }

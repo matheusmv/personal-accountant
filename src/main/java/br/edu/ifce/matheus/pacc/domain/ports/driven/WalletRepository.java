@@ -4,5 +4,5 @@ import br.edu.ifce.matheus.pacc.domain.entities.Wallet;
 
 public interface WalletRepository {
     Wallet saveWallet(Wallet wallet);
-    Wallet findByNameAndOwnerEmail(String name, String ownerEmail);
+    Wallet findByNameAndOwnerUsername(String name, String ownerUsername);
 }

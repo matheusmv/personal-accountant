@@ -8,6 +8,7 @@ public class RegistrationRequest {
 
     private String firstName;
     private String lastName;
+    private String username;
     private String email;
     private String password;
 
@@ -16,6 +17,7 @@ public class RegistrationRequest {
 
         user.setFirstName(firstName);
         user.setLastName(lastName);
+        user.setUsername(username);
         user.setEmail(email);
         user.setPassword(password);
 
