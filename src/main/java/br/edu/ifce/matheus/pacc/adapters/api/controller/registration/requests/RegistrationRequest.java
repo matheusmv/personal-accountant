@@ -5,12 +5,17 @@ import lombok.Data;
 
 @Data
 public class RegistrationRequest {
+
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
 
     public User toUser() {
         var user = new User();
 
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
         user.setEmail(email);
         user.setPassword(password);
 
