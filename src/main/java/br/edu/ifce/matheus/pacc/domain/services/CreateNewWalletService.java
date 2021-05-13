@@ -22,11 +22,8 @@ public class CreateNewWalletService implements CreateNewWallet {
 
     @Override
     public Wallet execute(Wallet wallet) {
-        var userExists = userRepository.findUserByUsername(wallet.getOwnerUsername());
-
-        if (userExists == null) {
-            throw new UserNotFoundException(String.format(USERNAME_NOT_VALID_MSG, wallet.getOwnerUsername()));
-        }
+        var userExists = userRepository.findUserByUsername(wallet.getOwnerUsername())
+                .orElseThrow(() -> new UserNotFoundException(String.format(USERNAME_NOT_VALID_MSG, wallet.getOwnerUsername())));
 
         var walletExists = walletRepository.findByNameAndOwnerUsername(wallet.getName(), userExists.getUsername());
 

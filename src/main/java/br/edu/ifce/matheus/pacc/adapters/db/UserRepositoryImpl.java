@@ -6,6 +6,8 @@ import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 
@@ -18,17 +20,17 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User findUserByUsername(String username) {
+    public Optional<User> findUserByUsername(String username) {
         return repository.findUserByUsername(username);
     }
 
     @Override
-    public User findUserByEmail(String userEmail) {
+    public Optional<User> findUserByEmail(String userEmail) {
         return repository.findUserByEmail(userEmail);
     }
 
     @Override
-    public User findUserByConfirmationToken(String confirmationToken) {
+    public Optional<User> findUserByConfirmationToken(String confirmationToken) {
         return repository.findUserByConfirmationToken(confirmationToken);
     }
 }

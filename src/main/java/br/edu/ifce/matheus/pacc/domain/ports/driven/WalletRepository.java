@@ -6,6 +6,8 @@ import java.util.Optional;
 
 public interface WalletRepository {
     Optional<Wallet> findWalletById(String walletId);
+
     Wallet saveWallet(Wallet wallet);
+
     Wallet findByNameAndOwnerUsername(String name, String ownerUsername);
 }

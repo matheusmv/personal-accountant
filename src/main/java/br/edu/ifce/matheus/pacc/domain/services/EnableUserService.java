@@ -21,11 +21,8 @@ public class EnableUserService implements EnableUser {
 
     @Override
     public String execute(String confirmationToken) {
-        var user = userRepository.findUserByConfirmationToken(confirmationToken);
-
-        if (user == null) {
-            throw new InvalidConfirmationTokenException(String.format(TOKEN_NOT_VALID_MSG, confirmationToken));
-        }
+        var user = userRepository.findUserByConfirmationToken(confirmationToken)
+                .orElseThrow(() -> new InvalidConfirmationTokenException(String.format(TOKEN_NOT_VALID_MSG, confirmationToken)));
 
         var userToken = user.getConfirmationToken();
 

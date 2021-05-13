@@ -4,13 +4,15 @@ import br.edu.ifce.matheus.pacc.domain.entities.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
+import java.util.Optional;
+
 public interface UserMongoRepository extends MongoRepository<User, String> {
     @Query(value = "{'username': ?0}")
-    User findUserByUsername(String username);
+    Optional<User> findUserByUsername(String username);
 
     @Query(value = "{'email': ?0}")
-    User findUserByEmail(String email);
+    Optional<User> findUserByEmail(String email);
 
     @Query(value = "{'confirmationToken.token': ?0}")
-    User findUserByConfirmationToken(String confirmationToken);
+    Optional<User> findUserByConfirmationToken(String confirmationToken);
 }
