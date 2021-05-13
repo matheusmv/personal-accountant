@@ -25,9 +25,9 @@ public class CreateNewWalletService implements CreateNewWallet {
         var userExists = userRepository.findUserByUsername(wallet.getOwnerUsername())
                 .orElseThrow(() -> new UserNotFoundException(String.format(USERNAME_NOT_VALID_MSG, wallet.getOwnerUsername())));
 
-        var walletExists = walletRepository.findByNameAndOwnerUsername(wallet.getName(), userExists.getUsername());
+        boolean walletExists = walletRepository.findByNameAndOwnerUsername(wallet.getName(), userExists.getUsername()).isPresent();
 
-        if (walletExists != null) {
+        if (walletExists) {
             throw new WalletExistsException("Wallet Already Exists");
         }
 

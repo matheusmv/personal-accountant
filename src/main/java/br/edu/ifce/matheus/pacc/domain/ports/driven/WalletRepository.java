@@ -9,5 +9,5 @@ public interface WalletRepository {
 
     Wallet saveWallet(Wallet wallet);
 
-    Wallet findByNameAndOwnerUsername(String name, String ownerUsername);
+    Optional<Wallet> findByNameAndOwnerUsername(String name, String ownerUsername);
 }
