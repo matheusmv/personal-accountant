@@ -2,13 +2,13 @@ spring:
   data:
     mongodb:
       auto-index-creation: true
-      uri: mongodb+srv://
+      uri: 
 
   mail:
-    host:
-    port:
-    username:
-    password:
+    host: 
+    port: 
+    username: 
+    password: 
 
     properties:
       mail:

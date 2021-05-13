@@ -7,6 +7,8 @@ import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,4 +20,5 @@ public class Wallet {
     private String name;
     private LocalDateTime createdAt;
     private String ownerUsername;
+    private List<FinancialData> financials = new ArrayList<>();
 }

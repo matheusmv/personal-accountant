@@ -64,6 +64,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+    @ExceptionHandler(WalletNotFoundException.class)
+    public ResponseEntity<StandardError> walletNotFound(WalletNotFoundException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(
+                Instant.now(),
+                status.value(),
+                "WalletNotFoundException",
+                e.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(status).body(err);
+    }
+
     @ExceptionHandler(InvalidFinancialDataAmountException.class)
     public ResponseEntity<StandardError> invalidFinancialDataAmount(InvalidFinancialDataAmountException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
