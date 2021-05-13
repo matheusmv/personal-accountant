@@ -17,4 +17,5 @@ public class Wallet {
     private String id;
     private String name;
     private LocalDateTime createdAt;
+    private String ownerEmail;
 }
