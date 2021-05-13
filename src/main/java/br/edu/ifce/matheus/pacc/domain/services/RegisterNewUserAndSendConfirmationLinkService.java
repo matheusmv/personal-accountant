@@ -21,6 +21,8 @@ import java.util.UUID;
 public class RegisterNewUserAndSendConfirmationLinkService implements RegisterNewUserAndSendConfirmationLink {
 
     private static final String EMAIL_NOT_VALID_MSG = "email %s not valid";
+    private static final String USERNAME_ALREADY_REGISTERED = "username already registered";
+    private static final String EMAIL_ALREADY_REGISTERED = "email already registered";
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -30,11 +32,7 @@ public class RegisterNewUserAndSendConfirmationLinkService implements RegisterNe
     public String execute(User user, String confirmationLink) {
         validateUserEmail(user.getEmail());
 
-        var userExists = userRepository.findUserByEmail(user.getEmail());
-
-        if (userExists != null) {
-            throw new UserExistsException("User Already Exists.");
-        }
+        verifyIfUsernameAndEmailExists(user);
 
         String encodedPassword = passwordEncoder.encode(user.getPassword());
 
@@ -51,6 +49,17 @@ public class RegisterNewUserAndSendConfirmationLinkService implements RegisterNe
         sendConfirmationEmail.execute(user, confirmationLink);
 
         return "confirm your email";
+    }
+
+    private void verifyIfUsernameAndEmailExists(User user) {
+        var userExists = userRepository.findUserByEmail(user.getEmail());
+
+        if (userExists != null) {
+            if (userExists.getUsername().equals(user.getUsername())) {
+                throw new UserExistsException(USERNAME_ALREADY_REGISTERED);
+            }
+            throw new UserExistsException(EMAIL_ALREADY_REGISTERED);
+        }
     }
 
     private void validateUserEmail(String userEmail) {
