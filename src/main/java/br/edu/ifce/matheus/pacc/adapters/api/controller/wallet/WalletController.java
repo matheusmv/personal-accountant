@@ -1,15 +1,15 @@
 package br.edu.ifce.matheus.pacc.adapters.api.controller.wallet;
 
+import br.edu.ifce.matheus.pacc.adapters.api.controller.wallet.requests.FinancialDataRequest;
 import br.edu.ifce.matheus.pacc.adapters.api.controller.wallet.requests.WalletRequest;
 import br.edu.ifce.matheus.pacc.adapters.api.controller.wallet.responses.WalletResponse;
+import br.edu.ifce.matheus.pacc.domain.ports.driver.CreateNewExpenseData;
+import br.edu.ifce.matheus.pacc.domain.ports.driver.CreateNewProfitData;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.CreateNewWallet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/wallets")
@@ -17,16 +17,28 @@ public class WalletController {
 
     @Autowired
     private CreateNewWallet createNewWallet;
+    @Autowired
+    private CreateNewExpenseData createNewExpenseData;
+    @Autowired
+    private CreateNewProfitData createNewProfitData;
 
     @PostMapping
     public ResponseEntity<WalletResponse> createWallet(@RequestBody WalletRequest request) {
         var savedWallet = createNewWallet.execute(request.toWallet());
+        return new ResponseEntity<>(new WalletResponse(savedWallet), HttpStatus.CREATED);
+    }
 
-        var uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(savedWallet.getId())
-                .toUri();
+    @PostMapping("/{id}/profits")
+    public ResponseEntity<Void> createProfitData(@PathVariable String id,
+                                                 @RequestBody FinancialDataRequest request) {
+        createNewProfitData.execute(id, request.toFinancialData());
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
-        return ResponseEntity.created(uri).body(new WalletResponse(savedWallet));
+    @PostMapping("/{id}/expenses")
+    public ResponseEntity<Void> createExpenseData(@PathVariable String id,
+                                                  @RequestBody FinancialDataRequest request) {
+        createNewExpenseData.execute(id, request.toFinancialData());
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

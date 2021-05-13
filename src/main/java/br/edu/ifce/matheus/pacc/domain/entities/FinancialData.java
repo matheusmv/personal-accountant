@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Document
 public class FinancialData {
-    private String id;
     private FinancialTransaction type;
     private String description;
     private BigDecimal amount;

@@ -2,13 +2,13 @@ spring:
   data:
     mongodb:
       auto-index-creation: true
-      uri: mongodb+srv://
+      uri: mongodb+srv://matheus:rjIEtacbYwJYsYma@mongo-db-study-tests.je9oz.mongodb.net/lp2?retryWrites=true&w=majority
 
   mail:
-    host:
-    port:
-    username:
-    password:
+    host: localhost
+    port: 25
+    username: anything
+    password: anything
 
     properties:
       mail:

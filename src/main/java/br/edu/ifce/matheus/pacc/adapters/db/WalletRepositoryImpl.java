@@ -6,11 +6,18 @@ import br.edu.ifce.matheus.pacc.domain.ports.driven.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class WalletRepositoryImpl implements WalletRepository {
 
     @Autowired
     private WalletMongoRepository repository;
+
+    @Override
+    public Optional<Wallet> findWalletById(String id) {
+        return repository.findById(id);
+    }
 
     @Override
     public Wallet saveWallet(Wallet wallet) {
