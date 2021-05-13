@@ -4,7 +4,9 @@ import br.edu.ifce.matheus.pacc.domain.entities.Wallet;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
+import java.util.Optional;
+
 public interface WalletMongoRepository extends MongoRepository<Wallet, String> {
     @Query(value = "{'name': ?0, 'ownerUsername': ?1}")
-    Wallet findByNameAndOwnerUsername(String walletName, String ownerUsername);
+    Optional<Wallet> findByNameAndOwnerUsername(String walletName, String ownerUsername);
 }
