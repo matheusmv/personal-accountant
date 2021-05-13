@@ -18,7 +18,7 @@ public class WalletRepositoryImpl implements WalletRepository {
     }
 
     @Override
-    public Wallet findByName(String walletName) {
-        return repository.findByName(walletName);
+    public Wallet findByNameAndOwnerEmail(String walletName, String ownerEmail) {
+        return repository.findByNameAndOwnerEmail(walletName, ownerEmail);
     }
 }

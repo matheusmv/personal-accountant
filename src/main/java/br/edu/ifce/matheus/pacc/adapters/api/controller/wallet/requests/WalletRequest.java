@@ -7,11 +7,13 @@ import lombok.Data;
 public class WalletRequest {
 
     private String name;
+    private String ownerEmail;
 
     public Wallet toWallet() {
         var wallet = new Wallet();
 
         wallet.setName(name);
+        wallet.setOwnerEmail(ownerEmail);
 
         return wallet;
     }
