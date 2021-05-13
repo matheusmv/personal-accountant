@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 public interface WalletMongoRepository extends MongoRepository<Wallet, String> {
-    @Query(value = "{'name': ?0, 'ownerEmail': ?1}")
-    Wallet findByNameAndOwnerEmail(String walletName, String ownerEmail);
+    @Query(value = "{'name': ?0, 'ownerUsername': ?1}")
+    Wallet findByNameAndOwnerUsername(String walletName, String ownerUsername);
 }

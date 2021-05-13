@@ -25,6 +25,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<StandardError> userNotFound(UserNotFoundException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(
+                Instant.now(),
+                status.value(),
+                "UserNotFoundException",
+                e.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(status).body(err);
+    }
+
     @ExceptionHandler(InvalidEmailException.class)
     public ResponseEntity<StandardError> invalidEmail(InvalidEmailException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
