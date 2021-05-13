@@ -1,7 +1,7 @@
 package br.edu.ifce.matheus.pacc.adapters.email;
 
 import br.edu.ifce.matheus.pacc.domain.exceptions.EmailSenderException;
-import br.edu.ifce.matheus.pacc.domain.ports.driven.EmailSender;
+import br.edu.ifce.matheus.pacc.domain.ports.driven.EmailService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,25 +15,27 @@ import javax.mail.internet.MimeMessage;
 
 @Service
 @AllArgsConstructor
-public class EmailSenderImpl implements EmailSender {
+public class EmailServiceImpl implements EmailService {
 
     private final static String EMAIL_FROM = "no-reply@pacc.com";
-    private final static Logger LOGGER = LoggerFactory.getLogger(EmailSenderImpl.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(EmailServiceImpl.class);
 
     private final JavaMailSender javaMailSender;
 
     @Override
     @Async
-    public void execute(String recipient, String confirmationLink, String token) {
-        String link = confirmationLink + token;
-        String emailBody = buildEmail(recipient, link);
+    public void execute(EmailDetails details) {
+        String link = details.getConfirmationLink();
+        String name = details.getUserFirstName();
+        String to = details.getTo();
+        String emailBody = buildEmail(name, link);
 
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
 
             helper.setText(emailBody, true);
-            helper.setTo(recipient);
+            helper.setTo(to);
             helper.setSubject("Confirm your email");
             helper.setFrom(EMAIL_FROM);
 

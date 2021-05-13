@@ -5,10 +5,10 @@ import br.edu.ifce.matheus.pacc.domain.entities.User;
 import br.edu.ifce.matheus.pacc.domain.entities.enums.UserRole;
 import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidEmailException;
 import br.edu.ifce.matheus.pacc.domain.exceptions.UserExistsException;
-import br.edu.ifce.matheus.pacc.domain.ports.driven.EmailSender;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.PasswordEncoder;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.RegisterNewUserAndSendConfirmationLink;
+import br.edu.ifce.matheus.pacc.domain.ports.driver.SendConfirmationEmail;
 import br.edu.ifce.matheus.pacc.domain.services.utils.EmailValidation;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class RegisterNewUserAndSendConfirmationLinkService implements RegisterNe
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final EmailSender emailSender;
+    private final SendConfirmationEmail sendConfirmationEmail;
 
     @Override
     public String execute(User user, String confirmationLink) {
@@ -48,7 +48,7 @@ public class RegisterNewUserAndSendConfirmationLinkService implements RegisterNe
 
         userRepository.saveUser(user);
 
-        emailSender.execute(user.getEmail(), confirmationLink, token);
+        sendConfirmationEmail.execute(user, confirmationLink);
 
         return "confirm your email";
     }
