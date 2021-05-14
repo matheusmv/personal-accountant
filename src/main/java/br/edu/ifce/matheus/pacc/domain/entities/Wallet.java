@@ -19,6 +19,12 @@ public class Wallet {
     private String id;
     private String name;
     private LocalDateTime createdAt;
-    private String ownerUsername;
+    private String ownerId;
     private List<FinancialData> financials = new ArrayList<>();
+
+    public Wallet(String name, LocalDateTime createdAt, String ownerId) {
+        this.name = name;
+        this.createdAt = createdAt;
+        this.ownerId = ownerId;
+    }
 }

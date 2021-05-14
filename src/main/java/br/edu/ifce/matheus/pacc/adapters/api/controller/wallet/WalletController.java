@@ -1,7 +1,7 @@
 package br.edu.ifce.matheus.pacc.adapters.api.controller.wallet;
 
 import br.edu.ifce.matheus.pacc.adapters.api.controller.wallet.requests.FinancialDataRequest;
-import br.edu.ifce.matheus.pacc.adapters.api.controller.wallet.requests.WalletRequest;
+import br.edu.ifce.matheus.pacc.adapters.api.controller.wallet.requests.NewWalletRequest;
 import br.edu.ifce.matheus.pacc.adapters.api.controller.wallet.responses.WalletResponse;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.CreateNewExpenseData;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.CreateNewProfitData;
@@ -23,8 +23,10 @@ public class WalletController {
     private CreateNewProfitData createNewProfitData;
 
     @PostMapping
-    public ResponseEntity<WalletResponse> createWallet(@RequestBody WalletRequest request) {
-        var savedWallet = createNewWallet.execute(request.toWallet());
+    public ResponseEntity<WalletResponse> createWallet(@RequestBody NewWalletRequest request) {
+        var walletName = request.getName();
+        var ownerUsername = request.getOwnerUsername();
+        var savedWallet = createNewWallet.execute(walletName, ownerUsername);
         return new ResponseEntity<>(new WalletResponse(savedWallet), HttpStatus.CREATED);
     }
 
