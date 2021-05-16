@@ -21,7 +21,7 @@ Aplicação para gestão de finanças pessoais
           username: anything
           password: anything
 
-## Documentação
+## Documentation
 
     Em desenvolvimento...
 

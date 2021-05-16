@@ -52,15 +52,17 @@ public class RegisterNewUserAndSendConfirmationLinkService implements RegisterNe
     }
 
     private void verifyIfUsernameAndEmailExists(User user) {
-        var userExists = userRepository.findUserByEmail(user.getEmail());
-        userExists.ifPresent(usr -> {
-            if (usr.getUsername().equals(user.getUsername())) {
-                throw new UserExistsException(USERNAME_ALREADY_REGISTERED);
-            }
-            if (usr.getEmail().equals(user.getEmail())) {
-                throw new UserExistsException(EMAIL_ALREADY_REGISTERED);
-            }
-        });
+        boolean usernameExists = userRepository.findUserByUsername(user.getUsername()).isPresent();
+
+        if (usernameExists) {
+            throw new UserExistsException(USERNAME_ALREADY_REGISTERED);
+        }
+
+        boolean emailExists = userRepository.findUserByEmail(user.getEmail()).isPresent();
+
+        if (emailExists) {
+            throw new UserExistsException(EMAIL_ALREADY_REGISTERED);
+        }
     }
 
     private void validateUserEmail(String userEmail) {
