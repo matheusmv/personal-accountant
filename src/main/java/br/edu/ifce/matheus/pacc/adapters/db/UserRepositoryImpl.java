@@ -15,8 +15,8 @@ public class UserRepositoryImpl implements UserRepository {
     private UserMongoRepository repository;
 
     @Override
-    public User saveUser(User user) {
-        return repository.save(user);
+    public void saveUser(User user) {
+        repository.save(user);
     }
 
     @Override

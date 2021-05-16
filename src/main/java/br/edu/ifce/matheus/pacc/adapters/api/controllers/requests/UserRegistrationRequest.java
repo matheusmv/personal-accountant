@@ -1,10 +1,10 @@
-package br.edu.ifce.matheus.pacc.adapters.api.controller.registration.requests;
+package br.edu.ifce.matheus.pacc.adapters.api.controllers.requests;
 
 import br.edu.ifce.matheus.pacc.domain.entities.User;
 import lombok.Data;
 
 @Data
-public class RegistrationRequest {
+public class UserRegistrationRequest {
 
     private String firstName;
     private String lastName;
