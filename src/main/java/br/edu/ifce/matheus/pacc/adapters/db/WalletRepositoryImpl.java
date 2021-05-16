@@ -20,8 +20,8 @@ public class WalletRepositoryImpl implements WalletRepository {
     }
 
     @Override
-    public Wallet saveWallet(Wallet wallet) {
-        return repository.save(wallet);
+    public void saveWallet(Wallet wallet) {
+        repository.save(wallet);
     }
 
     @Override

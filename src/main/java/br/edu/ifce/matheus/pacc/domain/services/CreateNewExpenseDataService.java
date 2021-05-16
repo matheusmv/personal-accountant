@@ -3,7 +3,9 @@ package br.edu.ifce.matheus.pacc.domain.services;
 import br.edu.ifce.matheus.pacc.domain.entities.FinancialData;
 import br.edu.ifce.matheus.pacc.domain.entities.enums.FinancialTransaction;
 import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidFinancialDataAmountException;
+import br.edu.ifce.matheus.pacc.domain.exceptions.UserNotFoundException;
 import br.edu.ifce.matheus.pacc.domain.exceptions.WalletNotFoundException;
+import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.WalletRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.CreateNewExpenseData;
 import lombok.AllArgsConstructor;
@@ -15,14 +17,19 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CreateNewExpenseDataService implements CreateNewExpenseData {
 
-    private final static String INVALID_WALLET_ID = "the %s id is not valid";
+    private static final String USERNAME_NOT_VALID_MSG = "username %s not valid";
+    private final static String INVALID_WALLET_NAME = "the %s wallet not exists";
 
+    private final UserRepository userRepository;
     private final WalletRepository walletRepository;
 
     @Override
-    public void execute(String walletId, FinancialData financialData) {
-        var walletExists = walletRepository.findWalletById(walletId)
-                .orElseThrow(() -> new WalletNotFoundException(String.format(INVALID_WALLET_ID, walletId)));
+    public void execute(String ownerUsername, String walletName, FinancialData financialData) {
+        var userExists = userRepository.findUserByUsername(ownerUsername)
+                .orElseThrow(() -> new UserNotFoundException(String.format(USERNAME_NOT_VALID_MSG, ownerUsername)));
+
+        var walletExists = walletRepository.findWalletByNameAndOwnerId(walletName, userExists.getId())
+                .orElseThrow(() -> new WalletNotFoundException(String.format(INVALID_WALLET_NAME, walletName)));
 
         if (financialData.getAmount() == null) {
             throw new InvalidFinancialDataAmountException("The amount cannot be null");

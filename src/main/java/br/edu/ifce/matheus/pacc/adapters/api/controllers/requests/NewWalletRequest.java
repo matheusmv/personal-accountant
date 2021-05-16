@@ -1,4 +1,4 @@
-package br.edu.ifce.matheus.pacc.adapters.api.controller.wallet.requests;
+package br.edu.ifce.matheus.pacc.adapters.api.controllers.requests;
 
 import lombok.Data;
 
