@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface WalletMongoRepository extends MongoRepository<Wallet, String> {
     @Query(value = "{'name': ?0, 'ownerId': ?1}")
-    Optional<Wallet> findWalletByNameAndOwnerId(String walletName, String ownerId);
+    Optional<Wallet> findByNameAndOwnerId(String walletName, String ownerId);
 }

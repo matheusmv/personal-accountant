@@ -21,15 +21,15 @@ public class UpdateWalletNameService implements UpdateWalletName {
 
     @Override
     public Wallet execute(String username, String walletName, String newWalletName) {
-        var user = userRepository.findUserByUsername(username)
+        var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(String.format(USERNAME_NOT_VALID_MSG, username)));
 
-        var wallet = walletRepository.findWalletByNameAndOwnerId(walletName, user.getId())
+        var wallet = walletRepository.findByNameAndOwnerId(walletName, user.getId())
                 .orElseThrow(() -> new WalletNotFoundException(String.format(INVALID_WALLET_NAME, walletName)));
 
         if (!wallet.getName().equals(newWalletName)) {
             wallet.setName(newWalletName);
-            walletRepository.saveWallet(wallet);
+            walletRepository.save(wallet);
         }
 
         return wallet;

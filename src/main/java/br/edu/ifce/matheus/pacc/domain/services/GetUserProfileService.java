@@ -17,7 +17,7 @@ public class GetUserProfileService implements GetUserProfile {
 
     @Override
     public User execute(String username) {
-        return userRepository.findUserByUsername(username)
+        return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(String.format(USERNAME_NOT_VALID_MSG, username)));
     }
 }

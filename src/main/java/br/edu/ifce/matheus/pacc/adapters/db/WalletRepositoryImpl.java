@@ -15,17 +15,17 @@ public class WalletRepositoryImpl implements WalletRepository {
     private WalletMongoRepository repository;
 
     @Override
-    public Optional<Wallet> findWalletById(String id) {
+    public Optional<Wallet> findById(String id) {
         return repository.findById(id);
     }
 
     @Override
-    public void saveWallet(Wallet wallet) {
+    public void save(Wallet wallet) {
         repository.save(wallet);
     }
 
     @Override
-    public Optional<Wallet> findWalletByNameAndOwnerId(String walletName, String ownerId) {
-        return repository.findWalletByNameAndOwnerId(walletName, ownerId);
+    public Optional<Wallet> findByNameAndOwnerId(String walletName, String ownerId) {
+        return repository.findByNameAndOwnerId(walletName, ownerId);
     }
 }

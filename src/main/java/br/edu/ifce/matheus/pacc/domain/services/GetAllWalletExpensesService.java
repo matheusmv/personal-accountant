@@ -25,10 +25,10 @@ public class GetAllWalletExpensesService implements GetAllWalletExpenses {
 
     @Override
     public List<FinancialData> execute(String username, String walletName) {
-        var user = userRepository.findUserByUsername(username)
+        var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(String.format(USERNAME_NOT_VALID_MSG, username)));
 
-        var wallet = walletRepository.findWalletByNameAndOwnerId(walletName, user.getId())
+        var wallet = walletRepository.findByNameAndOwnerId(walletName, user.getId())
                 .orElseThrow(() -> new WalletNotFoundException(String.format(INVALID_WALLET_NAME, walletName)));
 
         return wallet.getFinancials()

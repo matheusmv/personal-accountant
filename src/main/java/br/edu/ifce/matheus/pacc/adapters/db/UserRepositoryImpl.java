@@ -15,22 +15,22 @@ public class UserRepositoryImpl implements UserRepository {
     private UserMongoRepository repository;
 
     @Override
-    public void saveUser(User user) {
+    public void save(User user) {
         repository.save(user);
     }
 
     @Override
-    public Optional<User> findUserByUsername(String username) {
-        return repository.findUserByUsername(username);
+    public Optional<User> findByUsername(String username) {
+        return repository.findByUsername(username);
     }
 
     @Override
-    public Optional<User> findUserByEmail(String userEmail) {
-        return repository.findUserByEmail(userEmail);
+    public Optional<User> findByEmail(String userEmail) {
+        return repository.findByEmail(userEmail);
     }
 
     @Override
-    public Optional<User> findUserByConfirmationToken(String confirmationToken) {
-        return repository.findUserByConfirmationToken(confirmationToken);
+    public Optional<User> findByConfirmationToken(String confirmationToken) {
+        return repository.findByConfirmationToken(confirmationToken);
     }
 }

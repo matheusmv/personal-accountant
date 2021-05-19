@@ -22,10 +22,10 @@ public class CreateNewWalletService implements CreateNewWallet {
 
     @Override
     public void execute(String walletName, String ownerUsername) {
-        var userExists = userRepository.findUserByUsername(ownerUsername)
+        var userExists = userRepository.findByUsername(ownerUsername)
                 .orElseThrow(() -> new UserNotFoundException(String.format(USERNAME_NOT_VALID_MSG, ownerUsername)));
 
-        boolean walletExists = walletRepository.findWalletByNameAndOwnerId(walletName, userExists.getId()).isPresent();
+        boolean walletExists = walletRepository.findByNameAndOwnerId(walletName, userExists.getId()).isPresent();
 
         if (walletExists) {
             throw new WalletExistsException("Wallet Already Exists");
@@ -33,7 +33,7 @@ public class CreateNewWalletService implements CreateNewWallet {
 
         var wallet = newWallet(walletName, userExists.getId());
 
-        walletRepository.saveWallet(wallet);
+        walletRepository.save(wallet);
     }
 
     private Wallet newWallet(String walletName, String ownerId) {
