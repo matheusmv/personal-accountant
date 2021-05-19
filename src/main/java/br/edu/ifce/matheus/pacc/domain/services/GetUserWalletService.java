@@ -21,10 +21,10 @@ public class GetUserWalletService implements GetUserWallet {
 
     @Override
     public Wallet execute(String ownerUsername, String walletName) {
-        var user = userRepository.findUserByUsername(ownerUsername)
+        var user = userRepository.findByUsername(ownerUsername)
                 .orElseThrow(() -> new UserNotFoundException(String.format(USERNAME_NOT_VALID_MSG, ownerUsername)));
 
-        return walletRepository.findWalletByNameAndOwnerId(walletName, user.getId())
+        return walletRepository.findByNameAndOwnerId(walletName, user.getId())
                 .orElseThrow(() -> new WalletNotFoundException(String.format(INVALID_WALLET_NAME, walletName)));
     }
 }

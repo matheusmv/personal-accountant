@@ -5,9 +5,9 @@ import br.edu.ifce.matheus.pacc.domain.entities.Wallet;
 import java.util.Optional;
 
 public interface WalletRepository {
-    Optional<Wallet> findWalletById(String walletId);
+    Optional<Wallet> findById(String walletId);
 
-    void saveWallet(Wallet wallet);
+    void save(Wallet wallet);
 
-    Optional<Wallet> findWalletByNameAndOwnerId(String name, String ownerId);
+    Optional<Wallet> findByNameAndOwnerId(String name, String ownerId);
 }

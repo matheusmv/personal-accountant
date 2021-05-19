@@ -44,7 +44,7 @@ public class RegisterNewUserAndSendConfirmationLinkService implements RegisterNe
 
         user.setConfirmationToken(createConfirmationToken(token));
 
-        userRepository.saveUser(user);
+        userRepository.save(user);
 
         sendConfirmationEmail.execute(user, confirmationLink);
 
@@ -52,13 +52,13 @@ public class RegisterNewUserAndSendConfirmationLinkService implements RegisterNe
     }
 
     private void verifyIfUsernameAndEmailExists(User user) {
-        boolean usernameExists = userRepository.findUserByUsername(user.getUsername()).isPresent();
+        boolean usernameExists = userRepository.findByUsername(user.getUsername()).isPresent();
 
         if (usernameExists) {
             throw new UserExistsException(USERNAME_ALREADY_REGISTERED);
         }
 
-        boolean emailExists = userRepository.findUserByEmail(user.getEmail()).isPresent();
+        boolean emailExists = userRepository.findByEmail(user.getEmail()).isPresent();
 
         if (emailExists) {
             throw new UserExistsException(EMAIL_ALREADY_REGISTERED);

@@ -25,10 +25,10 @@ public class CreateNewProfitDataService implements CreateNewProfitData {
 
     @Override
     public void execute(String ownerUsername, String walletName, FinancialData financialData) {
-        var userExists = userRepository.findUserByUsername(ownerUsername)
+        var userExists = userRepository.findByUsername(ownerUsername)
                 .orElseThrow(() -> new UserNotFoundException(String.format(USERNAME_NOT_VALID_MSG, ownerUsername)));
 
-        var walletExists = walletRepository.findWalletByNameAndOwnerId(walletName, userExists.getId())
+        var walletExists = walletRepository.findByNameAndOwnerId(walletName, userExists.getId())
                 .orElseThrow(() -> new WalletNotFoundException(String.format(INVALID_WALLET_NAME, walletName)));
 
         if (financialData.getAmount() == null) {
@@ -42,6 +42,6 @@ public class CreateNewProfitDataService implements CreateNewProfitData {
 
         walletFinancials.add(financialData);
 
-        walletRepository.saveWallet(walletExists);
+        walletRepository.save(walletExists);
     }
 }

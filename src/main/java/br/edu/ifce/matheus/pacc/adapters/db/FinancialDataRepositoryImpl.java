@@ -13,7 +13,7 @@ public class FinancialDataRepositoryImpl implements FinancialDataRepository {
     private FinancialDataMongoRepository repository;
 
     @Override
-    public FinancialData saveFinancialData(FinancialData financialData) {
+    public FinancialData save(FinancialData financialData) {
         return repository.save(financialData);
     }
 }

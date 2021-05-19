@@ -8,11 +8,11 @@ import java.util.Optional;
 
 public interface UserMongoRepository extends MongoRepository<User, String> {
     @Query(value = "{'username': ?0}")
-    Optional<User> findUserByUsername(String username);
+    Optional<User> findByUsername(String username);
 
     @Query(value = "{'email': ?0}")
-    Optional<User> findUserByEmail(String email);
+    Optional<User> findByEmail(String email);
 
     @Query(value = "{'confirmationToken.token': ?0}")
-    Optional<User> findUserByConfirmationToken(String confirmationToken);
+    Optional<User> findByConfirmationToken(String confirmationToken);
 }
