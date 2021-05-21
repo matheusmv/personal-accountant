@@ -14,14 +14,16 @@ public class SendConfirmationEmailService implements SendConfirmationEmail {
 
     @Override
     public void execute(User user, String confirmationLink) {
-        var userName = user.getFirstName();
+        var name = user.getName();
+        var username = user.getUsername();
         var userEmail = user.getEmail();
         var userToken = user.getConfirmationToken().getToken();
 
         var details = new EmailService.EmailDetails();
 
         details.setTo(userEmail);
-        details.setUserFirstName(userName);
+        details.setRecipientName(name);
+        details.setRecipientUsername(username);
         details.setConfirmationLink(confirmationLink + userToken);
 
         emailService.execute(details);

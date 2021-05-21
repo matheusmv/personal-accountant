@@ -5,7 +5,7 @@ import br.edu.ifce.matheus.pacc.domain.exceptions.UserNotFoundException;
 import br.edu.ifce.matheus.pacc.domain.exceptions.WalletExistsException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.WalletRepository;
-import br.edu.ifce.matheus.pacc.domain.ports.driver.CreateNewWallet;
+import br.edu.ifce.matheus.pacc.domain.ports.driver.CreateAWallet;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +13,15 @@ import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
-public class CreateNewWalletService implements CreateNewWallet {
+public class CreateAWalletService implements CreateAWallet {
 
     private static final String USERNAME_NOT_VALID_MSG = "username %s not valid";
 
-    private final WalletRepository walletRepository;
     private final UserRepository userRepository;
+    private final WalletRepository walletRepository;
 
     @Override
-    public void execute(String walletName, String ownerUsername) {
+    public Wallet execute(String ownerUsername, String walletName) {
         var userExists = userRepository.findByUsername(ownerUsername)
                 .orElseThrow(() -> new UserNotFoundException(String.format(USERNAME_NOT_VALID_MSG, ownerUsername)));
 
@@ -34,6 +34,8 @@ public class CreateNewWalletService implements CreateNewWallet {
         var wallet = newWallet(walletName, userExists.getId());
 
         walletRepository.save(wallet);
+
+        return wallet;
     }
 
     private Wallet newWallet(String walletName, String ownerId) {

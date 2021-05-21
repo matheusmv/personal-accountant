@@ -5,13 +5,13 @@ import br.edu.ifce.matheus.pacc.domain.exceptions.UserNotFoundException;
 import br.edu.ifce.matheus.pacc.domain.exceptions.WalletNotFoundException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.WalletRepository;
-import br.edu.ifce.matheus.pacc.domain.ports.driver.UpdateWalletName;
+import br.edu.ifce.matheus.pacc.domain.ports.driver.GetAWalletForAUser;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class UpdateWalletNameService implements UpdateWalletName {
+public class GetAWalletForAUserService implements GetAWalletForAUser {
 
     private static final String USERNAME_NOT_VALID_MSG = "username %s not valid";
     private final static String INVALID_WALLET_NAME = "the %s wallet not exists";
@@ -20,18 +20,11 @@ public class UpdateWalletNameService implements UpdateWalletName {
     private final WalletRepository walletRepository;
 
     @Override
-    public Wallet execute(String username, String walletName, String newWalletName) {
-        var user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(String.format(USERNAME_NOT_VALID_MSG, username)));
+    public Wallet execute(String ownerUsername, String walletName) {
+        var user = userRepository.findByUsername(ownerUsername)
+                .orElseThrow(() -> new UserNotFoundException(String.format(USERNAME_NOT_VALID_MSG, ownerUsername)));
 
-        var wallet = walletRepository.findByNameAndOwnerId(walletName, user.getId())
+        return walletRepository.findByNameAndOwnerId(walletName, user.getId())
                 .orElseThrow(() -> new WalletNotFoundException(String.format(INVALID_WALLET_NAME, walletName)));
-
-        if (!wallet.getName().equals(newWalletName)) {
-            wallet.setName(newWalletName);
-            walletRepository.save(wallet);
-        }
-
-        return wallet;
     }
 }

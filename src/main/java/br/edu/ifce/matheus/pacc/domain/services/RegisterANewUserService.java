@@ -7,7 +7,7 @@ import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidEmailException;
 import br.edu.ifce.matheus.pacc.domain.exceptions.UserExistsException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.PasswordEncoder;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
-import br.edu.ifce.matheus.pacc.domain.ports.driver.RegisterNewUserAndSendConfirmationLink;
+import br.edu.ifce.matheus.pacc.domain.ports.driver.RegisterANewUser;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.SendConfirmationEmail;
 import br.edu.ifce.matheus.pacc.domain.services.utils.EmailValidation;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class RegisterNewUserAndSendConfirmationLinkService implements RegisterNewUserAndSendConfirmationLink {
+public class RegisterANewUserService implements RegisterANewUser {
 
     private static final String EMAIL_NOT_VALID_MSG = "email %s not valid";
     private static final String USERNAME_ALREADY_REGISTERED = "username already registered";

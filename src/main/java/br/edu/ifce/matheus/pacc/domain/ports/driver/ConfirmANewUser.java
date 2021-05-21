@@ -1,5 +1,5 @@
 package br.edu.ifce.matheus.pacc.domain.ports.driver;
 
-public interface EnableUser {
+public interface ConfirmANewUser {
     String execute(String confirmationToken);
 }

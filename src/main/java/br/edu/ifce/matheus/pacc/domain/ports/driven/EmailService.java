@@ -10,7 +10,8 @@ public interface EmailService {
     @Setter
     class EmailDetails {
         private String to;
-        private String userFirstName;
+        private String recipientName;
+        private String recipientUsername;
         private String confirmationLink;
     }
 }
