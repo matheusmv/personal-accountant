@@ -2,6 +2,6 @@ package br.edu.ifce.matheus.pacc.domain.ports.driver;
 
 import br.edu.ifce.matheus.pacc.domain.entities.User;
 
-public interface GetUserProfile {
+public interface GetAUser {
     User execute(String username);
 }

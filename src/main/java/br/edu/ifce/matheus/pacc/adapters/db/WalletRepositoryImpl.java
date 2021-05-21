@@ -6,6 +6,7 @@ import br.edu.ifce.matheus.pacc.domain.ports.driven.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -27,5 +28,10 @@ public class WalletRepositoryImpl implements WalletRepository {
     @Override
     public Optional<Wallet> findByNameAndOwnerId(String walletName, String ownerId) {
         return repository.findByNameAndOwnerId(walletName, ownerId);
+    }
+
+    @Override
+    public List<Wallet> findAllByOwnerId(String ownerId) {
+        return repository.findAllByOwnerId(ownerId);
     }
 }

@@ -6,13 +6,11 @@ import lombok.Data;
 @Data
 public class UserProfileResponse {
 
-    private String firstName;
-    private String lastName;
+    private String name;
     private String username;
 
     public UserProfileResponse(User user) {
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
+        this.name = user.getName();
         this.username = user.getUsername();
     }
 }

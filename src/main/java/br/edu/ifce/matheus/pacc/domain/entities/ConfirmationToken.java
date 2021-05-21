@@ -27,8 +27,4 @@ public class ConfirmationToken {
     public boolean hasExpired() {
         return expiresAt.isBefore(LocalDateTime.now());
     }
-
-    public boolean hasBeenConfirmed() {
-        return confirmedAt != null;
-    }
 }

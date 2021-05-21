@@ -16,8 +16,7 @@ import java.time.LocalDateTime;
 @Document
 public class User {
     private String id;
-    private String firstName;
-    private String lastName;
+    private String name;
     private String username;
     private String email;
     private String password;
