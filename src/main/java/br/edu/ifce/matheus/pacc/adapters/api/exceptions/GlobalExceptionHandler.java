@@ -38,13 +38,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
-    @ExceptionHandler(InvalidEmailException.class)
-    public ResponseEntity<StandardError> invalidEmail(InvalidEmailException e, HttpServletRequest request) {
+    @ExceptionHandler(InvalidParameterException.class)
+    public ResponseEntity<StandardError> invalidParameter(InvalidParameterException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError err = new StandardError(
                 Instant.now(),
                 status.value(),
-                "InvalidEmailException",
+                "InvalidParameterException",
                 e.getMessage(),
                 request.getRequestURI()
         );

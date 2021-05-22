@@ -3,13 +3,14 @@ package br.edu.ifce.matheus.pacc.domain.services;
 import br.edu.ifce.matheus.pacc.domain.entities.ConfirmationToken;
 import br.edu.ifce.matheus.pacc.domain.entities.User;
 import br.edu.ifce.matheus.pacc.domain.entities.enums.UserRole;
-import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidEmailException;
+import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidParameterException;
 import br.edu.ifce.matheus.pacc.domain.exceptions.UserExistsException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.PasswordEncoder;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.RegisterANewUser;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.SendConfirmationEmail;
-import br.edu.ifce.matheus.pacc.domain.services.utils.EmailValidation;
+import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.UserRegistrationValidator;
+import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.enums.UserValidationResult;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RegisterANewUserService implements RegisterANewUser {
 
-    private static final String EMAIL_NOT_VALID_MSG = "email %s not valid";
     private static final String USERNAME_ALREADY_REGISTERED = "username already registered";
     private static final String EMAIL_ALREADY_REGISTERED = "email already registered";
 
@@ -30,7 +30,7 @@ public class RegisterANewUserService implements RegisterANewUser {
 
     @Override
     public String execute(User user, String confirmationLink) {
-        validateUserEmail(user.getEmail());
+        validateUser(user);
 
         verifyIfUsernameAndEmailExists(user);
 
@@ -65,13 +65,15 @@ public class RegisterANewUserService implements RegisterANewUser {
         }
     }
 
-    private void validateUserEmail(String userEmail) {
-        EmailValidation validation = new EmailValidation();
+    private void validateUser(User user) {
+        UserValidationResult result = UserRegistrationValidator.isNameValid()
+                .and(UserRegistrationValidator.isUsernameValid())
+                .and(UserRegistrationValidator.isEmailValid())
+                .and(UserRegistrationValidator.isPasswordValid())
+                .apply(user);
 
-        boolean isValidEmail = validation.test(userEmail);
-
-        if (!isValidEmail) {
-            throw new InvalidEmailException(String.format(EMAIL_NOT_VALID_MSG, userEmail));
+        if (result != UserValidationResult.SUCCESS) {
+            throw new InvalidParameterException(result.name());
         }
     }
 
