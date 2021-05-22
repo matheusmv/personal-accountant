@@ -1,7 +1,7 @@
 package br.edu.ifce.matheus.pacc.domain.services;
 
 import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidConfirmationTokenException;
-import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidEmailException;
+import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidParameterException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.ConfirmANewUser;
 import lombok.AllArgsConstructor;
@@ -25,7 +25,7 @@ public class ConfirmANewUserService implements ConfirmANewUser {
                 .orElseThrow(() -> new InvalidConfirmationTokenException(String.format(TOKEN_NOT_VALID_MSG, confirmationToken)));
 
         if (user.getEnabled()) {
-            throw new InvalidEmailException(EMAIL_ALREADY_CONFIRMED_MSG);
+            throw new InvalidParameterException(EMAIL_ALREADY_CONFIRMED_MSG);
         }
 
         var userToken = user.getConfirmationToken();
