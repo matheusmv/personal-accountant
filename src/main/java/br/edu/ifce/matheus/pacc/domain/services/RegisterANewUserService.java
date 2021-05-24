@@ -3,14 +3,12 @@ package br.edu.ifce.matheus.pacc.domain.services;
 import br.edu.ifce.matheus.pacc.domain.entities.ConfirmationToken;
 import br.edu.ifce.matheus.pacc.domain.entities.User;
 import br.edu.ifce.matheus.pacc.domain.entities.enums.UserRole;
-import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidParameterException;
 import br.edu.ifce.matheus.pacc.domain.exceptions.UserExistsException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.PasswordEncoder;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.RegisterANewUser;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.SendConfirmationEmail;
-import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.UserRegistrationValidator;
-import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.enums.UserValidationResult;
+import br.edu.ifce.matheus.pacc.domain.services.utils.ValidateUserCreationImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +28,7 @@ public class RegisterANewUserService implements RegisterANewUser {
 
     @Override
     public String execute(User user, String confirmationLink) {
-        validateUser(user);
+        ValidateUserCreationImpl.validate(user);
 
         verifyIfUsernameAndEmailExists(user);
 
@@ -62,18 +60,6 @@ public class RegisterANewUserService implements RegisterANewUser {
 
         if (emailExists) {
             throw new UserExistsException(EMAIL_ALREADY_REGISTERED);
-        }
-    }
-
-    private void validateUser(User user) {
-        UserValidationResult result = UserRegistrationValidator.isNameValid()
-                .and(UserRegistrationValidator.isUsernameValid())
-                .and(UserRegistrationValidator.isEmailValid())
-                .and(UserRegistrationValidator.isPasswordValid())
-                .apply(user);
-
-        if (result != UserValidationResult.SUCCESS) {
-            throw new InvalidParameterException(result.name());
         }
     }
 

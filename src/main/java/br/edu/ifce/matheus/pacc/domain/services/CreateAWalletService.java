@@ -1,14 +1,12 @@
 package br.edu.ifce.matheus.pacc.domain.services;
 
 import br.edu.ifce.matheus.pacc.domain.entities.Wallet;
-import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidParameterException;
 import br.edu.ifce.matheus.pacc.domain.exceptions.UserNotFoundException;
 import br.edu.ifce.matheus.pacc.domain.exceptions.WalletExistsException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.WalletRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.CreateAWallet;
-import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.WalletCreationValidator;
-import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.enums.WalletValidationResult;
+import br.edu.ifce.matheus.pacc.domain.services.utils.ValidateWalletCreationImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,19 +34,11 @@ public class CreateAWalletService implements CreateAWallet {
 
         var wallet = newWallet(walletName, userExists.getId());
 
-        validateNewWallet(wallet);
+        ValidateWalletCreationImpl.validate(wallet);
 
         walletRepository.save(wallet);
 
         return wallet;
-    }
-
-    private void validateNewWallet(Wallet wallet) {
-        WalletValidationResult result = WalletCreationValidator.isNameValid().apply(wallet);
-
-        if (result != WalletValidationResult.SUCCESS) {
-            throw new InvalidParameterException(result.name());
-        }
     }
 
     private Wallet newWallet(String walletName, String ownerId) {
