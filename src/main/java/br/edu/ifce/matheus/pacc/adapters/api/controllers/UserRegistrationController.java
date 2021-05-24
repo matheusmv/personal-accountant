@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class UserRegistrationController {
 
-    final String confirmationLink = "http://localhost:8080/api/v1/users/confirmation?token=";
+    private static final String CONFIRMATION_LINK = "http://localhost:8080/api/v1/users/confirmation?token=";
 
     private final RegisterANewUser registerANewUser;
     private final ConfirmANewUser confirmANewUser;
@@ -25,7 +25,7 @@ public class UserRegistrationController {
 
     @PostMapping("/registration")
     public ResponseEntity<UserRegistrationResponse> registerANewUser(@RequestBody UserRegistrationRequest request) {
-        var message = registerANewUser.execute(request.toUser(), confirmationLink);
+        var message = registerANewUser.execute(request.toUser(), CONFIRMATION_LINK);
         return new ResponseEntity<>(new UserRegistrationResponse(message), HttpStatus.CREATED);
     }
 
@@ -37,7 +37,7 @@ public class UserRegistrationController {
 
     @PostMapping("/resend-confirmation")
     public ResponseEntity<EnableNewUserResponse> resendEmailConfirmation(@RequestBody ResendEmailConfirmationRequest request) {
-        var message = resendEmailConfirmation.execute(request.getEmail(), confirmationLink);
+        var message = resendEmailConfirmation.execute(request.getEmail(), CONFIRMATION_LINK);
         return new ResponseEntity<>(new EnableNewUserResponse(message), HttpStatus.OK);
     }
 }
