@@ -7,7 +7,7 @@ import br.edu.ifce.matheus.pacc.domain.exceptions.WalletNotFoundException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.WalletRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.AddProfitsToAWallet;
-import br.edu.ifce.matheus.pacc.domain.services.utils.ValidateFinancialDataImpl;
+import br.edu.ifce.matheus.pacc.domain.services.utils.ValidateFinancialDataCreationImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +34,7 @@ public class AddProfitsToAWalletService implements AddProfitsToAWallet {
         financialData.setCreatedAt(LocalDateTime.now());
         financialData.setType(FinancialTransaction.PROFIT);
 
-        ValidateFinancialDataImpl.validate(financialData);
+        ValidateFinancialDataCreationImpl.validate(financialData);
 
         var walletFinancials = walletExists.getFinancials();
 

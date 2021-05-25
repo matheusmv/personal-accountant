@@ -10,7 +10,7 @@ public final class ValidateWalletCreationImpl {
         WalletValidationResult result = WalletCreationValidator.isNameValid().apply(wallet);
 
         if (result != WalletValidationResult.SUCCESS) {
-            throw new InvalidParameterException(result.name());
+            throw new InvalidParameterException(result.getResult());
         }
     }
 }
