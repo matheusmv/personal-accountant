@@ -6,8 +6,8 @@ import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.enums.WalletVa
 import java.util.Optional;
 import java.util.function.Function;
 
-public interface WalletCreationValidator extends Function<Wallet, WalletValidationResult> {
-    static WalletCreationValidator isNameValid() {
+public interface WalletValidator extends Function<Wallet, WalletValidationResult> {
+    static WalletValidator isNameValid() {
         return wallet -> {
             boolean walletNameNotNullAndNotEmpty = Optional.ofNullable(wallet)
                     .map(Wallet::getName)
@@ -18,7 +18,7 @@ public interface WalletCreationValidator extends Function<Wallet, WalletValidati
         };
     }
 
-    default WalletCreationValidator and(WalletCreationValidator validator) {
+    default WalletValidator and(WalletValidator validator) {
         return wallet -> {
             WalletValidationResult result = this.apply(wallet);
             return result.equals(WalletValidationResult.SUCCESS) ? validator.apply(wallet) : result;

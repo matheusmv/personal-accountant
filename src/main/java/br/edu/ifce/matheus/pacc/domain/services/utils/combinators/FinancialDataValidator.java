@@ -6,9 +6,9 @@ import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.enums.Financia
 import java.util.Optional;
 import java.util.function.Function;
 
-public interface FinancialDataCreationValidator extends Function<FinancialData, FinancialDataValidationResult> {
+public interface FinancialDataValidator extends Function<FinancialData, FinancialDataValidationResult> {
 
-    static FinancialDataCreationValidator isDescriptionValid() {
+    static FinancialDataValidator isDescriptionValid() {
         return financialData -> {
             boolean descriptionNotNullAndNotEmpty = Optional.ofNullable(financialData)
                     .map(FinancialData::getDescription)
@@ -19,7 +19,7 @@ public interface FinancialDataCreationValidator extends Function<FinancialData, 
         };
     }
 
-    static FinancialDataCreationValidator isAmountValid() {
+    static FinancialDataValidator isAmountValid() {
         return financialData -> {
             boolean amountNotNullAndGreaterThanZero = Optional.ofNullable(financialData)
                     .map(FinancialData::getAmount)
@@ -30,7 +30,7 @@ public interface FinancialDataCreationValidator extends Function<FinancialData, 
         };
     }
 
-    default FinancialDataCreationValidator and(FinancialDataCreationValidator validator) {
+    default FinancialDataValidator and(FinancialDataValidator validator) {
         return financialData -> {
             FinancialDataValidationResult result = this.apply(financialData);
             return result.equals(FinancialDataValidationResult.SUCCESS) ? validator.apply(financialData) : result;
