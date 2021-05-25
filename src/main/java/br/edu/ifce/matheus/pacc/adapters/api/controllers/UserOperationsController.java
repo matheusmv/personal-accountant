@@ -23,7 +23,7 @@ public class UserOperationsController {
 
     @GetMapping
     public ResponseEntity<List<UserPageableResponse>> getAllUsers(@RequestParam(defaultValue = "0") int page,
-                                                                  @RequestParam(defaultValue = "3") int size) {
+                                                                  @RequestParam(defaultValue = "5") int size) {
         var pageOfUsers = getAllUsers.execute(page, size);
         var listOfUsers = Stream.ofNullable(pageOfUsers)
                 .map(UserPageableResponse::new)

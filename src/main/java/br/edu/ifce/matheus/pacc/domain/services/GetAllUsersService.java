@@ -1,6 +1,7 @@
 package br.edu.ifce.matheus.pacc.domain.services;
 
 import br.edu.ifce.matheus.pacc.domain.entities.User;
+import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidParameterException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.GetAllUsers;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,16 @@ public class GetAllUsersService implements GetAllUsers {
 
     @Override
     public Page<User> execute(int page, int size) {
+        validatePage(page);
+
         Pageable paging = PageRequest.of(page, size);
+
         return userRepository.findAllUsers(paging);
+    }
+
+    private void validatePage(int page) {
+        if (page < 0) {
+            throw new InvalidParameterException("Page index must not be less than zero.");
+        }
     }
 }
