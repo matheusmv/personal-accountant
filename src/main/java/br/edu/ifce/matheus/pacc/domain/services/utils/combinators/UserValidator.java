@@ -6,8 +6,8 @@ import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.enums.UserVali
 import java.util.Optional;
 import java.util.function.Function;
 
-public interface UserCreationValidator extends Function<User, UserValidationResult> {
-    static UserCreationValidator isNameValid() {
+public interface UserValidator extends Function<User, UserValidationResult> {
+    static UserValidator isNameValid() {
         return user -> {
             boolean nameNotNullAndNotEmpty = Optional.ofNullable(user)
                     .map(User::getName)
@@ -18,7 +18,7 @@ public interface UserCreationValidator extends Function<User, UserValidationResu
         };
     }
 
-    static UserCreationValidator isUsernameValid() {
+    static UserValidator isUsernameValid() {
         return user -> {
             boolean usernameNotNullAndNotEmpty = Optional.ofNullable(user)
                     .map(User::getUsername)
@@ -29,7 +29,7 @@ public interface UserCreationValidator extends Function<User, UserValidationResu
         };
     }
 
-    static UserCreationValidator isEmailValid() {
+    static UserValidator isEmailValid() {
         return user -> {
             boolean emailNotNullNotEmptyAndValidFormat = Optional.ofNullable(user)
                     .map(User::getEmail)
@@ -40,7 +40,7 @@ public interface UserCreationValidator extends Function<User, UserValidationResu
         };
     }
 
-    static UserCreationValidator isPasswordValid() {
+    static UserValidator isPasswordValid() {
         return user -> {
             boolean passwordNotNullNotEmptyAndHasGoodLength = Optional.ofNullable(user)
                     .map(User::getPassword)
@@ -51,7 +51,7 @@ public interface UserCreationValidator extends Function<User, UserValidationResu
         };
     }
 
-    default UserCreationValidator and(UserCreationValidator validator) {
+    default UserValidator and(UserValidator validator) {
         return user -> {
             UserValidationResult result = this.apply(user);
             return result.equals(UserValidationResult.SUCCESS) ? validator.apply(user) : result;

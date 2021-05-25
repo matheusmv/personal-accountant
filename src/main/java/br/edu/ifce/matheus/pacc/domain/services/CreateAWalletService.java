@@ -6,7 +6,7 @@ import br.edu.ifce.matheus.pacc.domain.exceptions.WalletExistsException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.WalletRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.CreateAWallet;
-import br.edu.ifce.matheus.pacc.domain.services.utils.ValidateWalletCreationImpl;
+import br.edu.ifce.matheus.pacc.domain.services.utils.validations.ValidateWalletCreation;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +20,7 @@ public class CreateAWalletService implements CreateAWallet {
 
     private final UserRepository userRepository;
     private final WalletRepository walletRepository;
+    private final ValidateWalletCreation validateWalletCreation;
 
     @Override
     public Wallet execute(String ownerUsername, String walletName) {
@@ -34,7 +35,7 @@ public class CreateAWalletService implements CreateAWallet {
 
         var wallet = newWallet(walletName, userExists.getId());
 
-        ValidateWalletCreationImpl.validate(wallet);
+        validateWalletCreation.validate(wallet);
 
         walletRepository.save(wallet);
 

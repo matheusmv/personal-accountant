@@ -8,7 +8,7 @@ import br.edu.ifce.matheus.pacc.domain.ports.driven.PasswordEncoder;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.RegisterANewUser;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.SendConfirmationEmail;
-import br.edu.ifce.matheus.pacc.domain.services.utils.ValidateUserCreationImpl;
+import br.edu.ifce.matheus.pacc.domain.services.utils.validations.ValidateUserCreation;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +25,11 @@ public class RegisterANewUserService implements RegisterANewUser {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final SendConfirmationEmail sendConfirmationEmail;
+    private final ValidateUserCreation validateUserCreation;
 
     @Override
     public String execute(User user, String confirmationLink) {
-        ValidateUserCreationImpl.validate(user);
+        validateUserCreation.validate(user);
 
         verifyIfUsernameAndEmailExists(user);
 
