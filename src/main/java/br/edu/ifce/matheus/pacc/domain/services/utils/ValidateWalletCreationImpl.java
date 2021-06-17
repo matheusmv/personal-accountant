@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public final class ValidateWalletCreationImpl implements ValidateWalletCreation {
     @Override
     public void validate(Wallet wallet) {
-        WalletValidationResult result = WalletValidator.isNameValid().apply(wallet);
+        WalletValidationResult result = WalletValidator.nameIsValid().apply(wallet);
 
         if (result != WalletValidationResult.SUCCESS) {
             throw new InvalidParameterException(result.getResult());
