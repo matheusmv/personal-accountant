@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Document
 public class Wallet {
+
     private String id;
     private String name;
     private LocalDateTime createdAt;

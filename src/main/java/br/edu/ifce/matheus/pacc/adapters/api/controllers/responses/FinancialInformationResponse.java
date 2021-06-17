@@ -9,12 +9,15 @@ import java.time.LocalDateTime;
 
 @Data
 public class FinancialInformationResponse {
+
+    private String identificationCode;
     private FinancialTransaction type;
     private String description;
     private BigDecimal amount;
     private LocalDateTime createdAt;
 
     public FinancialInformationResponse(FinancialData financialData) {
+        this.identificationCode = financialData.getIdentificationCode();
         this.type = financialData.getType();
         this.description = financialData.getDescription();
         this.amount = financialData.getAmount();

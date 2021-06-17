@@ -1,6 +1,7 @@
 package br.edu.ifce.matheus.pacc.domain.services;
 
 import br.edu.ifce.matheus.pacc.domain.entities.FinancialData;
+import br.edu.ifce.matheus.pacc.domain.entities.Wallet;
 import br.edu.ifce.matheus.pacc.domain.entities.enums.FinancialTransaction;
 import br.edu.ifce.matheus.pacc.domain.exceptions.UserNotFoundException;
 import br.edu.ifce.matheus.pacc.domain.exceptions.WalletNotFoundException;
@@ -9,6 +10,7 @@ import br.edu.ifce.matheus.pacc.domain.ports.driven.WalletRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.AddExpensesToAWallet;
 import br.edu.ifce.matheus.pacc.domain.services.utils.validations.ValidateFinancialDataCreation;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,7 +20,7 @@ import java.time.LocalDateTime;
 public class AddExpensesToAWalletService implements AddExpensesToAWallet {
 
     private static final String USERNAME_NOT_VALID_MSG = "username %s not valid";
-    private final static String INVALID_WALLET_NAME = "the %s wallet not exists";
+    private static final String INVALID_WALLET_NAME = "the %s wallet not exists";
 
     private final UserRepository userRepository;
     private final WalletRepository walletRepository;
@@ -26,23 +28,31 @@ public class AddExpensesToAWalletService implements AddExpensesToAWallet {
 
     @Override
     public FinancialData execute(String ownerUsername, String walletName, FinancialData financialData) {
-        var userExists = userRepository.findByUsername(ownerUsername)
+        var user = userRepository.findByUsername(ownerUsername)
                 .orElseThrow(() -> new UserNotFoundException(String.format(USERNAME_NOT_VALID_MSG, ownerUsername)));
 
-        var walletExists = walletRepository.findByNameAndOwnerId(walletName, userExists.getId())
+        var wallet = walletRepository.findByNameAndOwnerId(walletName, user.getId())
                 .orElseThrow(() -> new WalletNotFoundException(String.format(INVALID_WALLET_NAME, walletName)));
 
+        financialData.setIdentificationCode(generateIdentificationCode());
         financialData.setCreatedAt(LocalDateTime.now());
         financialData.setType(FinancialTransaction.EXPENSE);
 
         validateFinancialDataCreation.validate(financialData);
 
-        var walletFinancials = walletExists.getFinancials();
+        addNewExpenseToWallet(wallet, financialData);
 
-        walletFinancials.add(financialData);
-
-        walletRepository.save(walletExists);
+        walletRepository.save(wallet);
 
         return financialData;
+    }
+
+    private String generateIdentificationCode() {
+        return RandomStringUtils.random(24, true, true);
+    }
+
+    private void addNewExpenseToWallet(Wallet wallet, FinancialData financialData) {
+        var walletFinancials = wallet.getFinancials();
+        walletFinancials.add(financialData);
     }
 }
