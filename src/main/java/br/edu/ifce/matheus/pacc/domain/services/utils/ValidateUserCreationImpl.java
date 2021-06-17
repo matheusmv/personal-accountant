@@ -1,7 +1,7 @@
 package br.edu.ifce.matheus.pacc.domain.services.utils;
 
 import br.edu.ifce.matheus.pacc.domain.entities.User;
-import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidParameterException;
+import br.edu.ifce.matheus.pacc.domain.exceptions.ValidationException;
 import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.UserValidator;
 import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.enums.UserValidationResult;
 import br.edu.ifce.matheus.pacc.domain.services.utils.validations.ValidateUserCreation;
@@ -18,7 +18,7 @@ public final class ValidateUserCreationImpl implements ValidateUserCreation {
                 .apply(user);
 
         if (result != UserValidationResult.SUCCESS) {
-            throw new InvalidParameterException(result.getResult());
+            throw new ValidationException(result.getResult());
         }
     }
 }

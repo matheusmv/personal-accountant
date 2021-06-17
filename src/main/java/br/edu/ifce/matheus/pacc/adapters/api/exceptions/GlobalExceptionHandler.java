@@ -1,5 +1,6 @@
 package br.edu.ifce.matheus.pacc.adapters.api.exceptions;
 
+import br.edu.ifce.matheus.pacc.adapters.email.exceptions.EmailServiceException;
 import br.edu.ifce.matheus.pacc.domain.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,92 +13,99 @@ import java.time.Instant;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserExistsException.class)
-    public ResponseEntity<StandardError> userExists(UserExistsException e, HttpServletRequest request) {
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<StandardError> userAlreadyExists(UserAlreadyExistsException exception,
+                                                           HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError err = new StandardError(
                 Instant.now(),
                 status.value(),
-                "UserExistsException",
-                e.getMessage(),
+                exception.getClass().getSimpleName(),
+                exception.getMessage(),
                 request.getRequestURI()
         );
         return ResponseEntity.status(status).body(err);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<StandardError> userNotFound(UserNotFoundException e, HttpServletRequest request) {
+    public ResponseEntity<StandardError> userNotFound(UserNotFoundException exception,
+                                                      HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError err = new StandardError(
                 Instant.now(),
                 status.value(),
-                "UserNotFoundException",
-                e.getMessage(),
+                exception.getClass().getSimpleName(),
+                exception.getMessage(),
                 request.getRequestURI()
         );
         return ResponseEntity.status(status).body(err);
     }
 
-    @ExceptionHandler(InvalidParameterException.class)
-    public ResponseEntity<StandardError> invalidParameter(InvalidParameterException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<StandardError> validationException(ValidationException exception,
+                                                             HttpServletRequest request) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
         StandardError err = new StandardError(
                 Instant.now(),
                 status.value(),
-                "InvalidParameterException",
-                e.getMessage(),
+                exception.getClass().getSimpleName(),
+                exception.getMessage(),
                 request.getRequestURI()
         );
         return ResponseEntity.status(status).body(err);
     }
 
-    @ExceptionHandler(WalletExistsException.class)
-    public ResponseEntity<StandardError> walletExists(WalletExistsException e, HttpServletRequest request) {
+    @ExceptionHandler(WalletAlreadyExistsException.class)
+    public ResponseEntity<StandardError> walletAlreadyExists(WalletAlreadyExistsException exception,
+                                                             HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError err = new StandardError(
                 Instant.now(),
                 status.value(),
-                "WalletExistsException",
-                e.getMessage(),
+                exception.getClass().getSimpleName(),
+                exception.getMessage(),
                 request.getRequestURI()
         );
         return ResponseEntity.status(status).body(err);
     }
 
     @ExceptionHandler(WalletNotFoundException.class)
-    public ResponseEntity<StandardError> walletNotFound(WalletNotFoundException e, HttpServletRequest request) {
+    public ResponseEntity<StandardError> walletNotFound(WalletNotFoundException exception,
+                                                        HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError err = new StandardError(
                 Instant.now(),
                 status.value(),
-                "WalletNotFoundException",
-                e.getMessage(),
+                exception.getClass().getSimpleName(),
+                exception.getMessage(),
                 request.getRequestURI()
         );
         return ResponseEntity.status(status).body(err);
     }
 
     @ExceptionHandler(InvalidConfirmationTokenException.class)
-    public ResponseEntity<StandardError> invalidConfirmationToken(InvalidConfirmationTokenException e, HttpServletRequest request) {
+    public ResponseEntity<StandardError> invalidConfirmationToken(InvalidConfirmationTokenException exception,
+                                                                  HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError err = new StandardError(
                 Instant.now(),
                 status.value(),
-                "InvalidConfirmationTokenException",
-                e.getMessage(),
+                exception.getClass().getSimpleName(),
+                exception.getMessage(),
                 request.getRequestURI()
         );
         return ResponseEntity.status(status).body(err);
     }
 
-    @ExceptionHandler(EmailSenderException.class)
-    public ResponseEntity<StandardError> emailSenderError(EmailSenderException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+    @ExceptionHandler(EmailServiceException.class)
+    public ResponseEntity<StandardError> emailServiceError(EmailServiceException exception,
+                                                           HttpServletRequest request) {
+        HttpStatus status = HttpStatus.SERVICE_UNAVAILABLE;
         StandardError err = new StandardError(
                 Instant.now(),
                 status.value(),
-                "EmailSenderException",
-                e.getMessage(),
+                exception.getClass().getSimpleName(),
+                exception.getMessage(),
                 request.getRequestURI()
         );
         return ResponseEntity.status(status).body(err);

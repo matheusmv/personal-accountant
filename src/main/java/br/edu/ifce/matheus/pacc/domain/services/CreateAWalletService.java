@@ -2,7 +2,7 @@ package br.edu.ifce.matheus.pacc.domain.services;
 
 import br.edu.ifce.matheus.pacc.domain.entities.Wallet;
 import br.edu.ifce.matheus.pacc.domain.exceptions.UserNotFoundException;
-import br.edu.ifce.matheus.pacc.domain.exceptions.WalletExistsException;
+import br.edu.ifce.matheus.pacc.domain.exceptions.WalletAlreadyExistsException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.WalletRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.CreateAWallet;
@@ -30,7 +30,7 @@ public class CreateAWalletService implements CreateAWallet {
         boolean walletExists = walletRepository.findByNameAndOwnerId(walletName, userExists.getId()).isPresent();
 
         if (walletExists) {
-            throw new WalletExistsException("Wallet Already Exists");
+            throw new WalletAlreadyExistsException("Wallet Already Exists");
         }
 
         var wallet = newWallet(walletName, userExists.getId());

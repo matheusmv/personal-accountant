@@ -3,7 +3,7 @@ package br.edu.ifce.matheus.pacc.domain.services;
 import br.edu.ifce.matheus.pacc.domain.entities.ConfirmationToken;
 import br.edu.ifce.matheus.pacc.domain.entities.User;
 import br.edu.ifce.matheus.pacc.domain.entities.enums.UserRole;
-import br.edu.ifce.matheus.pacc.domain.exceptions.UserExistsException;
+import br.edu.ifce.matheus.pacc.domain.exceptions.UserAlreadyExistsException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.PasswordEncoder;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.RegisterANewUser;
@@ -54,13 +54,13 @@ public class RegisterANewUserService implements RegisterANewUser {
         boolean usernameExists = userRepository.findByUsername(user.getUsername()).isPresent();
 
         if (usernameExists) {
-            throw new UserExistsException(USERNAME_ALREADY_REGISTERED);
+            throw new UserAlreadyExistsException(USERNAME_ALREADY_REGISTERED);
         }
 
         boolean emailExists = userRepository.findByEmail(user.getEmail()).isPresent();
 
         if (emailExists) {
-            throw new UserExistsException(EMAIL_ALREADY_REGISTERED);
+            throw new UserAlreadyExistsException(EMAIL_ALREADY_REGISTERED);
         }
     }
 

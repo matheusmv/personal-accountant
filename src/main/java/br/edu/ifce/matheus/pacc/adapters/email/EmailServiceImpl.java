@@ -1,6 +1,6 @@
 package br.edu.ifce.matheus.pacc.adapters.email;
 
-import br.edu.ifce.matheus.pacc.domain.exceptions.EmailSenderException;
+import br.edu.ifce.matheus.pacc.adapters.email.exceptions.EmailServiceException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.EmailService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -43,7 +43,7 @@ public class EmailServiceImpl implements EmailService {
             javaMailSender.send(mimeMessage);
         } catch (MessagingException e) {
             LOGGER.error("failed to send email", e);
-            throw new EmailSenderException("failed to send email");
+            throw new EmailServiceException("failed to send email");
         }
     }
 
