@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WalletRepository {
-    Optional<Wallet> findById(String walletId);
-
     void save(Wallet wallet);
 
     Optional<Wallet> findByNameAndOwnerId(String name, String ownerId);
