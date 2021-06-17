@@ -1,7 +1,7 @@
 package br.edu.ifce.matheus.pacc.domain.services.utils;
 
 import br.edu.ifce.matheus.pacc.domain.entities.Wallet;
-import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidParameterException;
+import br.edu.ifce.matheus.pacc.domain.exceptions.ValidationException;
 import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.WalletValidator;
 import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.enums.WalletValidationResult;
 import br.edu.ifce.matheus.pacc.domain.services.utils.validations.ValidateWalletCreation;
@@ -14,7 +14,7 @@ public final class ValidateWalletCreationImpl implements ValidateWalletCreation 
         WalletValidationResult result = WalletValidator.nameIsValid().apply(wallet);
 
         if (result != WalletValidationResult.SUCCESS) {
-            throw new InvalidParameterException(result.getResult());
+            throw new ValidationException(result.getResult());
         }
     }
 }

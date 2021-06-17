@@ -1,6 +1,6 @@
 package br.edu.ifce.matheus.pacc.domain.services;
 
-import br.edu.ifce.matheus.pacc.domain.exceptions.InvalidParameterException;
+import br.edu.ifce.matheus.pacc.domain.exceptions.UserNotFoundException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.ResendEmailConfirmation;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.SendConfirmationEmail;
@@ -21,7 +21,7 @@ public class ResendEmailConfirmationService implements ResendEmailConfirmation {
     @Override
     public String execute(String userEmail, String confirmationLink) {
         var userExists = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new InvalidParameterException(String.format(EMAIL_NOT_VALID_MSG, userEmail)));
+                .orElseThrow(() -> new UserNotFoundException(String.format(EMAIL_NOT_VALID_MSG, userEmail)));
 
         if (userExists.getEnabled()) {
             return "the account has already been confirmed";
