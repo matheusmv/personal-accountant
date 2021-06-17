@@ -4,12 +4,12 @@ import br.edu.ifce.matheus.pacc.domain.entities.ConfirmationToken;
 import br.edu.ifce.matheus.pacc.domain.entities.User;
 import br.edu.ifce.matheus.pacc.domain.entities.enums.UserRole;
 import br.edu.ifce.matheus.pacc.domain.exceptions.UserAlreadyExistsException;
-import br.edu.ifce.matheus.pacc.domain.ports.driven.PasswordEncoder;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.RegisterANewUser;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.SendConfirmationEmail;
 import br.edu.ifce.matheus.pacc.domain.services.utils.validations.ValidateUserCreation;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,7 +23,7 @@ public class RegisterANewUserService implements RegisterANewUser {
     private static final String EMAIL_ALREADY_REGISTERED = "email already registered";
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final SendConfirmationEmail sendConfirmationEmail;
     private final ValidateUserCreation validateUserCreation;
 
