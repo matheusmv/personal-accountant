@@ -16,11 +16,6 @@ public class WalletRepositoryImpl implements WalletRepository {
     private WalletMongoRepository repository;
 
     @Override
-    public Optional<Wallet> findById(String id) {
-        return repository.findById(id);
-    }
-
-    @Override
     public void save(Wallet wallet) {
         repository.save(wallet);
     }
