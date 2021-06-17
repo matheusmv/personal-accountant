@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
 public class WalletUserOperationsController {
 
     private final CreateAWallet createAWallet;
-    private final AddProfitsToAWallet addProfitsToAWallet;
-    private final AddExpensesToAWallet addExpensesToAWallet;
     private final ListWalletsForAUser listWalletsForAUser;
     private final GetAWalletForAUser getAWalletForAUser;
+    private final AddProfitsToAWallet addProfitsToAWallet;
+    private final AddExpensesToAWallet addExpensesToAWallet;
 
     @PostMapping("{username}/wallets")
     public ResponseEntity<NewWalletResponse> createANewWallet(@PathVariable String username,
@@ -32,22 +32,6 @@ public class WalletUserOperationsController {
         var walletName = request.getName();
         var newWallet = createAWallet.execute(username, walletName);
         return new ResponseEntity<>(new NewWalletResponse(newWallet), HttpStatus.CREATED);
-    }
-
-    @PostMapping("/{username}/{walletName}/wallets/profits")
-    public ResponseEntity<FinancialInformationResponse> addProfitsToAWallet(@PathVariable String username,
-                                                                            @PathVariable String walletName,
-                                                                            @RequestBody NewFinancialDataRequest request) {
-        var financialData = addProfitsToAWallet.execute(username, walletName, request.toFinancialData());
-        return new ResponseEntity<>(new FinancialInformationResponse(financialData), HttpStatus.CREATED);
-    }
-
-    @PostMapping("/{username}/{walletName}/wallets/expenses")
-    public ResponseEntity<FinancialInformationResponse> addExpensesToAWallet(@PathVariable String username,
-                                                                             @PathVariable String walletName,
-                                                                             @RequestBody NewFinancialDataRequest request) {
-        var financialData = addExpensesToAWallet.execute(username, walletName, request.toFinancialData());
-        return new ResponseEntity<>(new FinancialInformationResponse(financialData), HttpStatus.CREATED);
     }
 
     @GetMapping("/{username}/wallets")
@@ -64,5 +48,21 @@ public class WalletUserOperationsController {
                                                                                 @PathVariable String walletName) {
         var wallet = getAWalletForAUser.execute(username, walletName);
         return new ResponseEntity<>(new DetailedWalletInformationResponse(wallet), HttpStatus.OK);
+    }
+
+    @PostMapping("/{username}/{walletName}/profits")
+    public ResponseEntity<FinancialInformationResponse> addProfitsToAWallet(@PathVariable String username,
+                                                                            @PathVariable String walletName,
+                                                                            @RequestBody NewFinancialDataRequest request) {
+        var financialData = addProfitsToAWallet.execute(username, walletName, request.toFinancialData());
+        return new ResponseEntity<>(new FinancialInformationResponse(financialData), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{username}/{walletName}/expenses")
+    public ResponseEntity<FinancialInformationResponse> addExpensesToAWallet(@PathVariable String username,
+                                                                             @PathVariable String walletName,
+                                                                             @RequestBody NewFinancialDataRequest request) {
+        var financialData = addExpensesToAWallet.execute(username, walletName, request.toFinancialData());
+        return new ResponseEntity<>(new FinancialInformationResponse(financialData), HttpStatus.CREATED);
     }
 }
