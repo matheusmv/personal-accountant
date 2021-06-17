@@ -6,22 +6,25 @@ import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.enums.WalletVa
 import java.util.Optional;
 import java.util.function.Function;
 
+import static br.edu.ifce.matheus.pacc.domain.services.utils.combinators.enums.WalletValidationResult.NAME_NOT_VALID;
+import static br.edu.ifce.matheus.pacc.domain.services.utils.combinators.enums.WalletValidationResult.SUCCESS;
+
 public interface WalletValidator extends Function<Wallet, WalletValidationResult> {
-    static WalletValidator isNameValid() {
+    static WalletValidator nameIsValid() {
         return wallet -> {
             boolean walletNameNotNullAndNotEmpty = Optional.ofNullable(wallet)
                     .map(Wallet::getName)
                     .filter(name -> !name.isBlank())
                     .isPresent();
 
-            return walletNameNotNullAndNotEmpty ? WalletValidationResult.SUCCESS : WalletValidationResult.NAME_NOT_VALID;
+            return walletNameNotNullAndNotEmpty ? SUCCESS : NAME_NOT_VALID;
         };
     }
 
     default WalletValidator and(WalletValidator validator) {
         return wallet -> {
             WalletValidationResult result = this.apply(wallet);
-            return result.equals(WalletValidationResult.SUCCESS) ? validator.apply(wallet) : result;
+            return result.equals(SUCCESS) ? validator.apply(wallet) : result;
         };
     }
 }

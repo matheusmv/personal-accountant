@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 public final class ValidateFinancialDataCreationImpl implements ValidateFinancialDataCreation {
     @Override
     public void validate(FinancialData financialData) {
-        FinancialDataValidationResult result = FinancialDataValidator.isDescriptionValid()
-                .and(FinancialDataValidator.isAmountValid())
+        FinancialDataValidationResult result = FinancialDataValidator.descriptionIsValid()
+                .and(FinancialDataValidator.amountIsValid())
                 .apply(financialData);
 
         if (result != FinancialDataValidationResult.SUCCESS) {

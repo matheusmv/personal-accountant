@@ -6,55 +6,57 @@ import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.enums.UserVali
 import java.util.Optional;
 import java.util.function.Function;
 
+import static br.edu.ifce.matheus.pacc.domain.services.utils.combinators.enums.UserValidationResult.*;
+
 public interface UserValidator extends Function<User, UserValidationResult> {
-    static UserValidator isNameValid() {
+    static UserValidator nameIsValid() {
         return user -> {
             boolean nameNotNullAndNotEmpty = Optional.ofNullable(user)
                     .map(User::getName)
                     .filter(name -> !name.isBlank())
                     .isPresent();
 
-            return nameNotNullAndNotEmpty ? UserValidationResult.SUCCESS : UserValidationResult.NAME_NOT_VALID;
+            return nameNotNullAndNotEmpty ? SUCCESS : NAME_NOT_VALID;
         };
     }
 
-    static UserValidator isUsernameValid() {
+    static UserValidator usernameIsValid() {
         return user -> {
             boolean usernameNotNullAndNotEmpty = Optional.ofNullable(user)
                     .map(User::getUsername)
                     .filter(username -> !username.isBlank())
                     .isPresent();
 
-            return usernameNotNullAndNotEmpty ? UserValidationResult.SUCCESS : UserValidationResult.USERNAME_NOT_VALID;
+            return usernameNotNullAndNotEmpty ? SUCCESS : USERNAME_NOT_VALID;
         };
     }
 
-    static UserValidator isEmailValid() {
+    static UserValidator emailIsValid() {
         return user -> {
             boolean emailNotNullNotEmptyAndValidFormat = Optional.ofNullable(user)
                     .map(User::getEmail)
                     .filter(email -> !email.isBlank() && email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"))
                     .isPresent();
 
-            return emailNotNullNotEmptyAndValidFormat ? UserValidationResult.SUCCESS : UserValidationResult.EMAIL_NOT_VALID;
+            return emailNotNullNotEmptyAndValidFormat ? SUCCESS : EMAIL_NOT_VALID;
         };
     }
 
-    static UserValidator isPasswordValid() {
+    static UserValidator passwordIsValid() {
         return user -> {
             boolean passwordNotNullNotEmptyAndHasGoodLength = Optional.ofNullable(user)
                     .map(User::getPassword)
                     .filter(password -> !password.isBlank() && password.length() > 6)
                     .isPresent();
 
-            return passwordNotNullNotEmptyAndHasGoodLength ? UserValidationResult.SUCCESS : UserValidationResult.PASSWORD_NOT_VALID;
+            return passwordNotNullNotEmptyAndHasGoodLength ? SUCCESS : PASSWORD_NOT_VALID;
         };
     }
 
     default UserValidator and(UserValidator validator) {
         return user -> {
             UserValidationResult result = this.apply(user);
-            return result.equals(UserValidationResult.SUCCESS) ? validator.apply(user) : result;
+            return result.equals(SUCCESS) ? validator.apply(user) : result;
         };
     }
 }

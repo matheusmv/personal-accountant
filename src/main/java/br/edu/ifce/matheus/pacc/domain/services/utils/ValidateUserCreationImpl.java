@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 public final class ValidateUserCreationImpl implements ValidateUserCreation {
     @Override
     public void validate(User user) {
-        UserValidationResult result = UserValidator.isNameValid()
-                .and(UserValidator.isUsernameValid())
-                .and(UserValidator.isEmailValid())
-                .and(UserValidator.isPasswordValid())
+        UserValidationResult result = UserValidator.nameIsValid()
+                .and(UserValidator.usernameIsValid())
+                .and(UserValidator.emailIsValid())
+                .and(UserValidator.passwordIsValid())
                 .apply(user);
 
         if (result != UserValidationResult.SUCCESS) {
