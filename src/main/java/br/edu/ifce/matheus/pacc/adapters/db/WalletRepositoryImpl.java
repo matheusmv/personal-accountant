@@ -29,4 +29,9 @@ public class WalletRepositoryImpl implements WalletRepository {
     public List<Wallet> findAllByOwnerId(String ownerId) {
         return repository.findAllByOwnerId(ownerId);
     }
+
+    @Override
+    public void delete(Wallet wallet) {
+        repository.delete(wallet);
+    }
 }

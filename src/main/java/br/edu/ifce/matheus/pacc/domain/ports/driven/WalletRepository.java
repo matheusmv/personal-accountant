@@ -11,4 +11,6 @@ public interface WalletRepository {
     Optional<Wallet> findByNameAndOwnerId(String name, String ownerId);
 
     List<Wallet> findAllByOwnerId(String ownerId);
+
+    void delete(Wallet wallet);
 }

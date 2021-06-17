@@ -26,6 +26,7 @@ public class WalletUserOperationsController {
     private final AddProfitsToAWallet addProfitsToAWallet;
     private final AddExpensesToAWallet addExpensesToAWallet;
     private final RemoveAFinancialDataFromTheWallet removeAFinancialDataFromTheWallet;
+    private final DeleteAWallet deleteAWallet;
 
     @PostMapping("{username}/wallets")
     public ResponseEntity<NewWalletResponse> createANewWallet(@PathVariable String username,
@@ -72,6 +73,12 @@ public class WalletUserOperationsController {
                                                                   @PathVariable String walletName,
                                                                   @PathVariable String identificationCode) {
         removeAFinancialDataFromTheWallet.execute(username, walletName, identificationCode);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/{username}/{walletName}")
+    public ResponseEntity<Void> deleteAWallet(@PathVariable String username, @PathVariable String walletName) {
+        deleteAWallet.execute(username, walletName);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
