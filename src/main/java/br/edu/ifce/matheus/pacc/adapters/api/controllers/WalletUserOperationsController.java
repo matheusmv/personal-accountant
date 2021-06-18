@@ -2,6 +2,7 @@ package br.edu.ifce.matheus.pacc.adapters.api.controllers;
 
 import br.edu.ifce.matheus.pacc.adapters.api.controllers.requests.NewFinancialDataRequest;
 import br.edu.ifce.matheus.pacc.adapters.api.controllers.requests.NewWalletRequest;
+import br.edu.ifce.matheus.pacc.adapters.api.controllers.requests.UpdateFinancialDataRequest;
 import br.edu.ifce.matheus.pacc.adapters.api.controllers.requests.UpdateWalletRequest;
 import br.edu.ifce.matheus.pacc.adapters.api.controllers.responses.DetailedWalletInformationResponse;
 import br.edu.ifce.matheus.pacc.adapters.api.controllers.responses.FinancialInformationResponse;
@@ -27,6 +28,7 @@ public class WalletUserOperationsController {
     private final AddProfitsToAWallet addProfitsToAWallet;
     private final AddExpensesToAWallet addExpensesToAWallet;
     private final UpdateAWalletName updateAWalletName;
+    private final UpdateAFinancialData updateAFinancialData;
     private final RemoveAFinancialDataFromTheWallet removeAFinancialDataFromTheWallet;
     private final DeleteAWallet deleteAWallet;
 
@@ -77,6 +79,15 @@ public class WalletUserOperationsController {
         var newWalletName = request.getName();
         var wallet = updateAWalletName.execute(username, walletName, newWalletName);
         return new ResponseEntity<>(new WalletInformationResponse(wallet), HttpStatus.OK);
+    }
+
+    @PutMapping("/{username}/{walletName}/{identificationCode}")
+    public ResponseEntity<FinancialInformationResponse> updateAFinancialData(@PathVariable String username,
+                                                                             @PathVariable String walletName,
+                                                                             @PathVariable String identificationCode,
+                                                                             @RequestBody UpdateFinancialDataRequest request) {
+        var financialData = updateAFinancialData.execute(username, walletName, identificationCode, request.toFinancialData());
+        return new ResponseEntity<>(new FinancialInformationResponse(financialData), HttpStatus.OK);
     }
 
     @DeleteMapping("/{username}/{walletName}/{identificationCode}")
