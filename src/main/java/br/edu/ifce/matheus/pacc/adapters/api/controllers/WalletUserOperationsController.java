@@ -2,6 +2,7 @@ package br.edu.ifce.matheus.pacc.adapters.api.controllers;
 
 import br.edu.ifce.matheus.pacc.adapters.api.controllers.requests.NewFinancialDataRequest;
 import br.edu.ifce.matheus.pacc.adapters.api.controllers.requests.NewWalletRequest;
+import br.edu.ifce.matheus.pacc.adapters.api.controllers.requests.UpdateWalletRequest;
 import br.edu.ifce.matheus.pacc.adapters.api.controllers.responses.DetailedWalletInformationResponse;
 import br.edu.ifce.matheus.pacc.adapters.api.controllers.responses.FinancialInformationResponse;
 import br.edu.ifce.matheus.pacc.adapters.api.controllers.responses.NewWalletResponse;
@@ -25,6 +26,7 @@ public class WalletUserOperationsController {
     private final GetAWalletForAUser getAWalletForAUser;
     private final AddProfitsToAWallet addProfitsToAWallet;
     private final AddExpensesToAWallet addExpensesToAWallet;
+    private final UpdateAWalletName updateAWalletName;
     private final RemoveAFinancialDataFromTheWallet removeAFinancialDataFromTheWallet;
     private final DeleteAWallet deleteAWallet;
 
@@ -66,6 +68,15 @@ public class WalletUserOperationsController {
                                                                              @RequestBody NewFinancialDataRequest request) {
         var financialData = addExpensesToAWallet.execute(username, walletName, request.toFinancialData());
         return new ResponseEntity<>(new FinancialInformationResponse(financialData), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{username}/{walletName}")
+    public ResponseEntity<WalletInformationResponse> updateAWalletName(@PathVariable String username,
+                                                                       @PathVariable String walletName,
+                                                                       @RequestBody UpdateWalletRequest request) {
+        var newWalletName = request.getName();
+        var wallet = updateAWalletName.execute(username, walletName, newWalletName);
+        return new ResponseEntity<>(new WalletInformationResponse(wallet), HttpStatus.OK);
     }
 
     @DeleteMapping("/{username}/{walletName}/{identificationCode}")
