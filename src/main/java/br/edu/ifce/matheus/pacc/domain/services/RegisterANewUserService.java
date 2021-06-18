@@ -7,7 +7,7 @@ import br.edu.ifce.matheus.pacc.domain.exceptions.UserAlreadyExistsException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.RegisterANewUser;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.SendConfirmationEmail;
-import br.edu.ifce.matheus.pacc.domain.services.utils.validations.ValidateUserCreation;
+import br.edu.ifce.matheus.pacc.domain.services.utils.validations.UserValidations;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,11 +25,11 @@ public class RegisterANewUserService implements RegisterANewUser {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final SendConfirmationEmail sendConfirmationEmail;
-    private final ValidateUserCreation validateUserCreation;
+    private final UserValidations userValidations;
 
     @Override
     public String execute(User user, String confirmationLink) {
-        validateUserCreation.validate(user);
+        userValidations.validate(user);
 
         verifyIfUsernameAndEmailExists(user);
 

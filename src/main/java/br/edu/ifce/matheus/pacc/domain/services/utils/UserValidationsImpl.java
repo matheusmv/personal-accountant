@@ -4,11 +4,11 @@ import br.edu.ifce.matheus.pacc.domain.entities.User;
 import br.edu.ifce.matheus.pacc.domain.exceptions.ValidationException;
 import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.UserValidator;
 import br.edu.ifce.matheus.pacc.domain.services.utils.combinators.enums.UserValidationResult;
-import br.edu.ifce.matheus.pacc.domain.services.utils.validations.ValidateUserCreation;
+import br.edu.ifce.matheus.pacc.domain.services.utils.validations.UserValidations;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class ValidateUserCreationImpl implements ValidateUserCreation {
+public final class UserValidationsImpl implements UserValidations {
     @Override
     public void validate(User user) {
         UserValidationResult result = UserValidator.nameIsValid()

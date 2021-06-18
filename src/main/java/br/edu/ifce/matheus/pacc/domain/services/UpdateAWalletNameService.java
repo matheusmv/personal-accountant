@@ -2,51 +2,39 @@ package br.edu.ifce.matheus.pacc.domain.services;
 
 import br.edu.ifce.matheus.pacc.domain.entities.Wallet;
 import br.edu.ifce.matheus.pacc.domain.exceptions.UserNotFoundException;
-import br.edu.ifce.matheus.pacc.domain.exceptions.WalletAlreadyExistsException;
+import br.edu.ifce.matheus.pacc.domain.exceptions.WalletNotFoundException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.WalletRepository;
-import br.edu.ifce.matheus.pacc.domain.ports.driver.CreateAWallet;
+import br.edu.ifce.matheus.pacc.domain.ports.driver.UpdateAWalletName;
 import br.edu.ifce.matheus.pacc.domain.services.utils.validations.WalletValidations;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
 @Service
 @AllArgsConstructor
-public class CreateAWalletService implements CreateAWallet {
+public class UpdateAWalletNameService implements UpdateAWalletName {
 
     private static final String USERNAME_NOT_VALID_MSG = "username %s not valid";
+    private static final String INVALID_WALLET_NAME = "the %s wallet not exists";
 
     private final UserRepository userRepository;
     private final WalletRepository walletRepository;
     private final WalletValidations walletValidations;
 
     @Override
-    public Wallet execute(String ownerUsername, String walletName) {
-        var userExists = userRepository.findByUsername(ownerUsername)
+    public Wallet execute(String ownerUsername, String walletName, String newWalletName) {
+        var user = userRepository.findByUsername(ownerUsername)
                 .orElseThrow(() -> new UserNotFoundException(String.format(USERNAME_NOT_VALID_MSG, ownerUsername)));
 
-        boolean walletExists = walletRepository.findByNameAndOwnerId(walletName, userExists.getId()).isPresent();
+        var wallet = walletRepository.findByNameAndOwnerId(walletName, user.getId())
+                .orElseThrow(() -> new WalletNotFoundException(String.format(INVALID_WALLET_NAME, walletName)));
 
-        if (walletExists) {
-            throw new WalletAlreadyExistsException("Wallet Already Exists");
-        }
-
-        var wallet = newWallet(walletName, userExists.getId());
+        wallet.setName(newWalletName);
 
         walletValidations.validate(wallet);
 
         walletRepository.save(wallet);
 
         return wallet;
-    }
-
-    private Wallet newWallet(String walletName, String ownerId) {
-        return new Wallet(
-                walletName,
-                LocalDateTime.now(),
-                ownerId
-        );
     }
 }

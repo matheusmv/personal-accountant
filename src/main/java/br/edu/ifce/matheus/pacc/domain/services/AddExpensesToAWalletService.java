@@ -8,7 +8,7 @@ import br.edu.ifce.matheus.pacc.domain.exceptions.WalletNotFoundException;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.UserRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driven.WalletRepository;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.AddExpensesToAWallet;
-import br.edu.ifce.matheus.pacc.domain.services.utils.validations.ValidateFinancialDataCreation;
+import br.edu.ifce.matheus.pacc.domain.services.utils.validations.FinancialDataValidations;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class AddExpensesToAWalletService implements AddExpensesToAWallet {
 
     private final UserRepository userRepository;
     private final WalletRepository walletRepository;
-    private final ValidateFinancialDataCreation validateFinancialDataCreation;
+    private final FinancialDataValidations financialDataValidations;
 
     @Override
     public FinancialData execute(String ownerUsername, String walletName, FinancialData financialData) {
@@ -38,7 +38,7 @@ public class AddExpensesToAWalletService implements AddExpensesToAWallet {
         financialData.setCreatedAt(LocalDateTime.now());
         financialData.setType(FinancialTransaction.EXPENSE);
 
-        validateFinancialDataCreation.validate(financialData);
+        financialDataValidations.validate(financialData);
 
         addNewExpenseToWallet(wallet, financialData);
 
