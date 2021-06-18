@@ -110,4 +110,18 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(status).body(err);
     }
+
+    @ExceptionHandler(FinancialDataNotFoundException.class)
+    public ResponseEntity<StandardError> financialDataNotFound(FinancialDataNotFoundException exception,
+                                                               HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(
+                Instant.now(),
+                status.value(),
+                exception.getClass().getSimpleName(),
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(status).body(err);
+    }
 }
