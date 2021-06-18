@@ -10,10 +10,13 @@ import br.edu.ifce.matheus.pacc.adapters.api.controllers.responses.NewWalletResp
 import br.edu.ifce.matheus.pacc.adapters.api.controllers.responses.WalletInformationResponse;
 import br.edu.ifce.matheus.pacc.domain.ports.driver.*;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -102,5 +105,17 @@ public class WalletUserOperationsController {
     public ResponseEntity<Void> deleteAWallet(@PathVariable String username, @PathVariable String walletName) {
         deleteAWallet.execute(username, walletName);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/{username}/{walletName}/download")
+    public ResponseEntity<?> downloadAWallet(@PathVariable String username, @PathVariable String walletName) {
+        var wallet = getAWalletForAUser.execute(username, walletName);
+
+        var fileName = username + "-" + walletName + "-" + Instant.now() + ".json";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                .body(wallet);
     }
 }
