@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - mongodev
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes:
+      - mongodata:/data/db
+
+  mongo-express:
+    image: mongo-express
+    container_name: express
+    ports:
+      - "8888:8081"
+    networks:
+      - mongodev
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_AUTH_DATABASE: admin
+      ME_CONFIG_BASICAUTH_USERNAME: dev
+      ME_CONFIG_BASICAUTH_PASSWORD: dev
+      ME_CONFIG_MONGODB_AUTH_USERNAME: root
+      ME_CONFIG_MONGODB_AUTH_PASSWORD: admin
+    depends_on:
+      - mongo
+    restart: always
+
+  mail-dev:
+    image: maildev/maildev
+    container_name: mail-dev
+    ports:
+      - "80:80"
+      - "25:25"
+    networks: 
+      - mongodev
+    restart: always
+
+networks: 
+  mongodev:
+    name: mongodev
+    driver: bridge
+
+volumes:
+  mongodata:
+    name: mongodata

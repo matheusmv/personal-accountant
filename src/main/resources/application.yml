@@ -2,7 +2,7 @@ spring:
   data:
     mongodb:
       auto-index-creation: true
-      uri: mongodb+srv://
+      uri: mongodb://root:admin@localhost:27017/personal-accountant
 
   mail:
     host: localhost
