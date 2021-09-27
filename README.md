@@ -7,20 +7,11 @@ Personal finance management application
 
  - [Postman Doc](https://documenter.getpostman.com/view/9922970/TzRX7kEj)
 
-## Using MailDev for testing
+## Running the application
 
-- [Docker](https://www.docker.com/get-started)
-- [MailDev](https://maildev.github.io/maildev/)
+ - [Docker](https://www.docker.com/get-started)
+ - [Docker Compose](https://docs.docker.com/compose/install/)
 
-       docker pull maildev/maildev
-       docker run -p 80:80 -p 25:25 maildev/maildev
-       
-       open localhost:80 in the browser
-
-- application.yml:
-
-       mail:
-         host: localhost
-         port: 25
-         username: anything
-         password: anything
+        git clone https://github.com/matheusmv/personal-accountant.git && cd /personal-accountant
+      
+        docker-compose up -p && ./mvnw package && java -jar app/target/app-0.0.1.jar
