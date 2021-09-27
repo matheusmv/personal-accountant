@@ -1,0 +1,23 @@
+spring:
+  data:
+    mongodb:
+      auto-index-creation: true
+      uri: mongodb://root:admin@localhost:27017/personal-accountant
+
+  mail:
+    host: localhost
+    port: 25
+    username: anything
+    password: anything
+
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
