@@ -10,6 +10,7 @@ Personal finance management application
 ## Setting environment variables
 
  - [application.yml](https://github.com/matheusmv/personal-accountant/blob/main/app/src/main/resources/application.yml)
+
  - [docker-compose.yml](https://github.com/matheusmv/personal-accountant/blob/main/docker-compose.yml)
 
 ## Running the application
