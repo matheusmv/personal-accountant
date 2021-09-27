@@ -14,4 +14,4 @@ Personal finance management application
 
         git clone https://github.com/matheusmv/personal-accountant.git && cd /personal-accountant
       
-        docker-compose up -p && ./mvnw package && java -jar app/target/app-0.0.1.jar
+        docker-compose up -d && ./mvnw package && java -jar app/target/app-0.0.1.jar
